@@ -1,0 +1,13 @@
+{
+    "name": "kenzo-kit",
+    "version": "0.0.0",
+    "authors": ["icw82"],
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests",
+        "static"
+    ]
+}

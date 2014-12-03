@@ -18,6 +18,5 @@ logs/
 /build/
 /node_modules/
 /bower_components/
-/.sources/
 /.builds/
 /.old/
