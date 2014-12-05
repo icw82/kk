@@ -1,0 +1,10 @@
+{
+    "name": "kenzo-kit",
+    "version": "0.0.0",
+    "authors": ["icw82"],
+    "private": true,
+    "ignore": [],
+    "devDependencies": {
+        "qunit": "~1.16.0"
+    }
+}

@@ -1,4 +1,5 @@
-var gulp = require('gulp'),
+var fs = require('fs'),
+    gulp = require('gulp'),
     gutil = require('gulp-util'),
     es = require('event-stream'),
     del = require('del'),
@@ -7,66 +8,130 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     sourcemaps = require('gulp-sourcemaps');
 
-var paths = {
-    'static': './static/**/*.*',
-    'build': '../kk-build',
-    'sources' : './sources'
-};
-
-var regjs = function(keys){
-    if (typeof keys === 'string') keys = [keys];
-    if (!(keys instanceof Array)) return false;
-
-    keys.forEach(function(key){
-        paths[key] = [
-            paths.sources + '/' + key + '/base.js',
-            paths.sources + '/' + key + '/*.js'
-        ];
-    });
+var globs = {
+    static: ['static/**/*', '!static/bower-kk'],
+    test: ['sources/**/*.test.js'],
+    scripts: ['sources/**/*.js', 'sources/**/*.test.js'],
+    qunit: {
+        js: '',
+        css: ''
+    }
 }
 
-regjs(['core', 'node', 'ui']);
+gulp.task('clean', function(callback){
+    del.sync([
+        'build/**/*',
+        '!build/bower-kk',
+        'build/bower-kk/**/*',
+        '!build/bower-kk/.git'
+    ]);
+
+    callback();
+});
 
 gulp.task('static', function(){
+    var dev = gulp
+        .src(globs.static)
+        .pipe(gulp.dest('build'));
+
+    var bower = gulp
+        .src(['static/bower-kk'])
+        .pipe(gulp.dest('build'));
+
+    return es
+        .merge(dev, bower);
+});
+
+gulp.task('test', function(){
     return gulp
-        .src(paths.static)
-        .pipe(gulp.dest(paths.build));
+        .src(globs.test)
+        .pipe(concat('test.js'))
+        .pipe(gulp.dest('build/test'));
 });
 
 gulp.task('scripts', function(){
-    var core = gulp
-        .src(paths.core)
-        .pipe(sourcemaps.init())
-        .pipe(concat('core.js'))
+    fs.readdir('sources', function(errors, list){
+        if (errors) return false;
 
-    var node = gulp
-        .src(paths.node)
-        .pipe(sourcemaps.init())
-        .pipe(concat('node.js'))
+        var ext = 'js',
+            streams = [];
 
-    var ui = gulp
-        .src(paths.ui)
-        .pipe(sourcemaps.init())
-        .pipe(concat('ui.js'))
+        list.forEach(function(name){
+            if (fs.statSync('sources/' + name).isDirectory()){
+                var paths = [
+                    'sources/' + name + '/base.' + ext,
+                    'sources/' + name + '/*.' + ext,
+                    '!sources/' + name + '/*.test.' + ext
+                ];
 
-    return es
-        .merge(core, node, ui)
-        .pipe(rename({prefix:'kk.'}))
-        .pipe(gulp.dest(paths.build))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(uglify().on("error", gutil.log))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.build));
+                if (name === 'core')
+                    name = 'kk';
+                else
+                    name = 'kk-' + name;
+
+                var stream = gulp
+                    .src(paths)
+                    .pipe(sourcemaps.init())
+                    .pipe(concat(name + '.' + ext));
+
+                streams.push(stream);
+            }
+        });
+
+        es.merge.apply(this, streams)
+            .pipe(gulp.dest('build/scripts'))
+            .pipe(gulp.dest('build/bower-kk'))
+            .pipe(rename({suffix: '.min'}))
+            .pipe(uglify().on("error", gutil.log))
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest('build/scripts'))
+            .pipe(gulp.dest('build/bower-kk'));
+    });
 });
+
+gulp.task('styles', function(){
+    fs.readdir('sources', function(errors, list){
+        if (errors) return false;
+
+        var ext = 'css',
+            streams = [];
+
+        list.forEach(function(name){
+            if (fs.statSync('sources/' + name).isDirectory()){
+                var path = 'sources/' + name + '/*.' + ext;
+
+                if (name === 'core')
+                    name = 'kk';
+                else
+                    name = 'kk-' + name;
+
+                var stream = gulp
+                    .src(path)
+                    .pipe(concat(name + '.' + ext));
+
+                streams.push(stream);
+            }
+        });
+
+        es.merge.apply(this, streams)
+            .pipe(gulp.dest('build/styles'))
+            .pipe(gulp.dest('build/bower-kk'))
+    });
+});
+
+gulp.task('qunit', function(){
+    return gulp
+        .src(['bower_components/qunit/qunit/*'])
+        .pipe(gulp.dest('build/test/qunit/'));
+
+});
+
+gulp.task('build', ['static', 'test', 'scripts', 'styles', 'qunit']);
 
 gulp.task('watch', function(){
-    gulp.watch(paths.static, ['static']);
-    gulp.watch('./sources/**/*.js', ['scripts']);
+    gulp.watch(globs.static, ['static']);
+    gulp.watch(globs.test, ['test']);
+    gulp.watch(globs.scripts, ['scripts']);
 });
 
-gulp.task('clean', function(callback){
-    del([paths.build + '/**/*', '!' + paths.build +'/.git'], {force: true}, callback);
-});
-
-gulp.task('build', ['static', 'scripts']);
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['clean', 'build', 'watch']);
