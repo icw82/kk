@@ -1,0 +1,12 @@
+{
+    "camelcase": false,
+    "indent": 4,
+    "maxlen": 100,
+    "unused": true,
+    "immed": true,
+    "trailing": true,
+    "lastsemic": true,
+    "globals": {
+        "kenzo": true
+    }
+}

@@ -5,8 +5,6 @@ env/*
 *~
 *.pyc
 settings/local.py
-.hg*
-_notes
 .DS_Store
 .DS_Store?
 .Spotlight-V100
