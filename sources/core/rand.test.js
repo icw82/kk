@@ -63,6 +63,9 @@ QUnit.test("Kenzo.rand", function(assert){
         if (result < min) min = result;
     });
     assert.ok((min === 10) && (max == 99),
-        'Случайное n-значное число');
+        'Случайное n-значное число (максимум 15 знаков)');
+
+    assert.ok(!kk.rand(16),
+        'Случайное n-значное число (больше 15 знаков)');
 
 });

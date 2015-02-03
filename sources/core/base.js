@@ -3,16 +3,19 @@
 'use strict';
 
 var root,
+    cons = console,
     kenzo = {
         v: '3.0.0',
-        w: false,
-        d: false,
+        w: false, // window (global if not)
+        d: false, // root.document
         _o: 'object',
         _f: 'function',
         _u: 'undefined',
         _s: 'string',
         _n: 'number',
-        __arg: 'Некорректные аргументы'
+        _A: Array,
+        __a: function(){cons.error('Некорректные аргументы')},
+        __d: function(){cons.warn('Depricated')}
     };
 
 if (typeof window == kenzo._o && typeof Window == kenzo._f && (window instanceof Window)){
@@ -24,6 +27,15 @@ if (typeof window == kenzo._o && typeof Window == kenzo._f && (window instanceof
 
 if (typeof root.document == kenzo._o)
     kenzo.d = true;
+
+if (typeof Element == kenzo._f)
+    kenzo._E = Element;
+
+if (typeof Node == kenzo._f)
+    kenzo._N = Node;
+
+if (typeof NodeList == kenzo._f)
+    kenzo._NL = NodeList;
 
 root.kenzo = root.kk = kenzo;
 
@@ -40,65 +52,6 @@ kenzo.r = root;
 
 //  – — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — —|
 
-//kenzo.plural = function(){
-//    var amount, singular, paucal, plural, fr;
-//
-//    if (typeof arguments[0] === 'number'){
-//        amount = arguments[0];
-//    } else if (arguments[0] instanceof Array){
-//        amount = arguments[0].length;
-//    } else if (typeof arguments[0] == 'object'){
-//        amount = (function(){
-//            var counter = 0;
-//            for (var j in arguments[0]) counter++;
-//            return counter;
-//        })();
-//    }
-//
-//    if (typeof amount === 'undefined'){
-//        return false;
-//    } else if (amount < 0){
-//        amount = -amount;
-//    }
-//
-//    if (
-//        (arguments[1] instanceof Array) &&
-//        (typeof arguments[1][0] == 'string') &&
-//        (typeof arguments[1][1] == 'string') &&
-//        (typeof arguments[1][2] == 'string')
-//    ){
-//        singular = arguments[1][0];
-//        paucal = arguments[1][1];
-//        plural = arguments[1][2];
-//
-//    } else if (
-//        (typeof arguments[1] == 'string') &&
-//        (typeof arguments[2] == 'string') &&
-//        (typeof arguments[3] == 'string')
-//    ){
-//        singular = arguments[1];
-//        paucal = arguments[2];
-//        plural = arguments[3];
-//    } else {
-//        console.warn('Формы не заданы');
-//        return false;
-//    }
-//
-//    (fr = amount.toString().match(/(\.\d+)/)) &&
-//        (amount *= Math.pow(10, fr[0].length - 1));
-//
-//    if (fr !== null)
-//        return plural;
-//    if ((amount % 10 == 1) && (amount % 100 != 11))
-//        return singular;
-//    else
-//        if ((amount % 10 >= 2) && (amount % 10 <= 4) &&
-//            ((amount % 100 < 10) || (amount % 100 >= 20)))
-//            return paucal;
-//        else
-//            return plural;
-//}
-//
 //kenzo.num_to_ru = function(n){
 //    if (typeof n == 'number')
 //        return n.toString().replace(/\./,',');
@@ -134,39 +87,6 @@ kenzo.r = root;
 //        else
 //            return false;
 //}
-//
-//kenzo.toggle_class = function(element, classes, classlist, toggle_exist){
-//    if (!(element instanceof Element)) return false;
-//
-//    if (typeof classes === 'string') classes = [classes];
-//    if (!(classes instanceof Array)) return false;
-//    if (!(classlist instanceof Array))
-//        classlist = classes;
-//
-//    var exist = true;
-//
-//    if (toggle_exist !== false)
-//        toggle_exist = true;
-//
-//    each (classes, function(cls){
-//        if (classlist.indexOf(cls) < 0)
-//            classlist.push(cls);
-//        if (!element.classList.contains(cls))
-//            exist = false;
-//    });
-//
-//    each (classlist, function(cls){
-//        if (toggle_exist && exist) {
-//            element.classList.remove(cls);
-//        } else {
-//            if (classes.indexOf(cls) < 0)
-//                element.classList.remove(cls);
-//            else
-//                element.classList.add(cls);
-//        }
-//    });
-//}
-//
 //
 
 //
