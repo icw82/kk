@@ -3,7 +3,7 @@
 // Если третий аргумент функция — то она выполяется после перебора массива,
 //     если обратная функция ниразу не возвращала true
 // Если последний элемент === true, перебор производится в обратном порядке.
-kenzo.each = function(array, callback){
+kk.each = function(array, callback){
     var kenzo = kk,
         args = arguments,
         reverse,

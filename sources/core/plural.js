@@ -1,4 +1,4 @@
-kenzo.plural = function(){
+kk.plural = function(){
     // TODO: Для других языков.
 
     var kenzo = kk,

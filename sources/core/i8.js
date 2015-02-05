@@ -1,4 +1,4 @@
-kenzo.i8to2 = function(int8){
+kk.i8to2 = function(int8){
     var _ = int8.toString(2);
     while (_.length < 8){
         _ = '0' + _;
@@ -6,15 +6,15 @@ kenzo.i8to2 = function(int8){
     return _;
 }
 
-kenzo.i8ArrayTo2 = function(array){
+kk.i8ArrayTo2 = function(array){
     var _ = '';
     kk.each (array, function(item){
-        _ += kenzo.i8to2(item);
+        _ += kk.i8to2(item);
     });
     return _;
 }
 
-kenzo.i8ArrayToString = function(array){
+kk.i8ArrayToString = function(array){
     var _ = '';
     kk.each (array, function(item){
         _ += String.fromCharCode(item);

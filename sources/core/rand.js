@@ -5,7 +5,7 @@
  * param {Number} Максимальное значение
  * @returns {Number} Случайное число из заданного диапазона
  */
-kenzo.rand = function(){
+kk.rand = function(){
     var kenzo = kk,
         args = arguments,
         min,

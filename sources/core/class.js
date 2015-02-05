@@ -1,4 +1,4 @@
-kenzo.class = function(element, classes, mask){
+kk.class = function(element, classes, mask){
     var kenzo = kk,
         each = kenzo.each,
         abort;
