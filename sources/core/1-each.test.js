@@ -1,4 +1,6 @@
 QUnit.test("Kenzo.each", function(assert){
+    // TODO: не проверяется индекс при обратном переборе
+
     var each = kk.each,
         array = [5, null, 'a', 584, ['b', 12], {'t': 1, 'a': 2}, 0, 'a', 1],
         un = false,
