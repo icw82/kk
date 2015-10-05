@@ -1,4 +1,4 @@
-kk.is_nodes = function(){
+kk.is_nodes = function() {
     var arg = arguments[0];
 
     if ((typeof StaticNodeList == kk._o) && (arg instanceof StaticNodeList))

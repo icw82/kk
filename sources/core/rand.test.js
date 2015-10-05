@@ -1,9 +1,9 @@
-QUnit.test("Kenzo.rand", function(assert){
+QUnit.test("Kenzo.rand", function(assert) {
     var each = kk.each,
         max = 12,
         min = 12;
 
-    each (100, function(){
+    each (100, function() {
         var result = kk.rand(10, 15);
 
         if (result > max) max = result;
@@ -13,7 +13,7 @@ QUnit.test("Kenzo.rand", function(assert){
         'Значения в заданном диапазоне');
 
     max = min = 0;
-    each (100, function(){
+    each (100, function() {
         var result = kk.rand(-5, 5);
 
         if (result > max) max = result;
@@ -24,7 +24,7 @@ QUnit.test("Kenzo.rand", function(assert){
 
 
     max = min = 5;
-    each (100, function(){
+    each (100, function() {
         var result = kk.rand(1);
 
         if (result > max) max = result;
@@ -35,7 +35,7 @@ QUnit.test("Kenzo.rand", function(assert){
 
 
     max = min = 5;
-    each (100, function(){
+    each (100, function() {
         var result = kk.rand(-1);
 
         if (result > max) max = result;
@@ -45,7 +45,7 @@ QUnit.test("Kenzo.rand", function(assert){
         'Случайное 1-значное число (отрицательный аргумент)');
 
     max = min = 5;
-    each (100, function(){
+    each (100, function() {
         var result = kk.rand(-1.82);
 
         if (result > max) max = result;
@@ -56,7 +56,7 @@ QUnit.test("Kenzo.rand", function(assert){
 
 
     max = min = 50;
-    each (1000, function(){
+    each (1000, function() {
         var result = kk.rand(2);
 
         if (result > max) max = result;

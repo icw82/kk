@@ -1,20 +1,20 @@
-QUnit.test("Kenzo.class", function(assert){
+QUnit.test("Kenzo.class", function(assert) {
     if (!kk.d) return false; // если нет DOM
 
     var testarea = document.querySelector('#dom-tests');
 
-    function test(current, classes, mask, result, comment){
+    function test(current, classes, mask, result, comment) {
         var element = document.createElement('div');
 
         if (!comment)
             comment = '';
 
-        if (current){
+        if (current) {
             if (typeof current === 'string')
                 current = [current];
 
-            each (current, function(cls){
-                if (typeof cls !== 'string'){
+            each (current, function(cls) {
+                if (typeof cls !== 'string') {
                     console.warn('!!')
                     return false;
                 }
@@ -23,25 +23,25 @@ QUnit.test("Kenzo.class", function(assert){
             });
         }
 
-        if (mask){
+        if (mask) {
             var test_result = kk.class(element, classes, mask);
         } else {
             var test_result = kk.class(element, classes);
         }
 
-        if (result instanceof Array){
-            if (!test_result){
+        if (result instanceof Array) {
+            if (!test_result) {
                 assert.ok(false, comment + ' (функция не выполнена)');
-            } else if (element.classList.length === result.length){
-                if (result.length === 0){
+            } else if (element.classList.length === result.length) {
+                if (result.length === 0) {
                     assert.ok(true, comment);
                 } else {
-                    each (result, function(cls){
-                        if (!element.classList.contains(cls)){
+                    each (result, function(cls) {
+                        if (!element.classList.contains(cls)) {
                             assert.ok(false, comment + ' (несовпадение слассов)');
                             return true;
                         }
-                    }, function(){
+                    }, function() {
                         assert.ok(true, comment);
                     });
                 }

@@ -5,14 +5,14 @@
  * param {Number} Максимальное значение
  * @returns {Number} Случайное число из заданного диапазона
  */
-kk.rand = function(){
+kk.rand = function() {
     var kenzo = kk,
         args = arguments,
         min,
         max;
 
-    if (typeof args[0] == kenzo._n){
-        if (typeof args[1] == kenzo._n){
+    if (typeof args[0] == kenzo._n) {
+        if (typeof args[1] == kenzo._n) {
             min = args[0];
             max = args[1] + 1;
 
@@ -23,7 +23,7 @@ kk.rand = function(){
             if (depth < 0)
                 depth = -depth;
 
-            if (depth < 16){
+            if (depth < 16) {
                 depth = Math.floor(depth);
 
                 if (depth === 0)
@@ -38,6 +38,6 @@ kk.rand = function(){
             } else
                 kenzo.__a();
         }
-    } else
+    } else // TODO: boolian если нет аргументов
         kenzo.__a();
 };

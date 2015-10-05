@@ -1,4 +1,4 @@
-(function(){
+(function() {
 // start ——————————————————————————————————————————————————————————————————————————————————— 100 ——|
 'use strict';
 
@@ -14,15 +14,15 @@ var root,
         _s: 'string',
         _n: 'number',
         _A: Array,
-        __a: function(){cons.error('Некорректные аргументы')},
-        __d: function(){cons.warn('Depricated')}
+        __a: function() {cons.error('Некорректные аргументы')},
+        __d: function() {cons.warn('Depricated')}
     };
 
 if (typeof window == kenzo._o &&
-    (typeof Window == kenzo._f || typeof Window == kenzo._o) && (window instanceof Window)){
+    (typeof Window == kenzo._f || typeof Window == kenzo._o) && (window instanceof Window)) {
     root = window;
     kenzo.w = true;
-} else if (typeof global == kenzo._o){
+} else if (typeof global == kenzo._o) {
     root = global;
 }
 
@@ -40,12 +40,12 @@ if (typeof NodeList == kenzo._f || typeof NodeList == kenzo._o)
 
 root.kenzo = root.kk = kenzo;
 
-kenzo.ts = function(){
+kenzo.ts = function() {
     var time = new Date();
     return time.getTime();
 }
 
-if (typeof module == kenzo._o && typeof module.exports == kenzo._o){
+if (typeof module == kenzo._o && typeof module.exports == kenzo._o) {
     // FUTURE: запилить для ноды
     module.exports = kenzo;
 }

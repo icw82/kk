@@ -18,7 +18,7 @@ var globs = {
     }
 }
 
-gulp.task('clean', function(callback){
+gulp.task('clean', function(callback) {
     del.sync([
         'build/**/*',
         '!build/bower-kk',
@@ -29,7 +29,7 @@ gulp.task('clean', function(callback){
     callback();
 });
 
-gulp.task('static', function(){
+gulp.task('static', function() {
     var dev = gulp
         .src(globs.static)
         .pipe(gulp.dest('build'));
@@ -42,22 +42,22 @@ gulp.task('static', function(){
         .merge(dev, bower);
 });
 
-gulp.task('test', function(){
+gulp.task('test', function() {
     return gulp
         .src(globs.test)
         .pipe(concat('test.js'))
         .pipe(gulp.dest('build/test'));
 });
 
-gulp.task('scripts', function(){
-    fs.readdir('sources', function(errors, list){
+gulp.task('scripts', function() {
+    fs.readdir('sources', function(errors, list) {
         if (errors) return false;
 
         var ext = 'js',
             streams = [];
 
-        list.forEach(function(name){
-            if (fs.statSync('sources/' + name).isDirectory()){
+        list.forEach(function(name) {
+            if (fs.statSync('sources/' + name).isDirectory()) {
                 var paths = [
                     'sources/' + name + '/base.' + ext,
                     'sources/' + name + '/*.' + ext,
@@ -89,15 +89,15 @@ gulp.task('scripts', function(){
     });
 });
 
-gulp.task('styles', function(){
-    fs.readdir('sources', function(errors, list){
+gulp.task('styles', function() {
+    fs.readdir('sources', function(errors, list) {
         if (errors) return false;
 
         var ext = 'css',
             streams = [];
 
-        list.forEach(function(name){
-            if (fs.statSync('sources/' + name).isDirectory()){
+        list.forEach(function(name) {
+            if (fs.statSync('sources/' + name).isDirectory()) {
                 var path = 'sources/' + name + '/*.' + ext;
 
                 if (name === 'core')
@@ -119,7 +119,7 @@ gulp.task('styles', function(){
     });
 });
 
-gulp.task('qunit', function(){
+gulp.task('qunit', function() {
     return gulp
         .src(['bower_components/qunit/qunit/*'])
         .pipe(gulp.dest('build/test/qunit/'));
@@ -128,7 +128,7 @@ gulp.task('qunit', function(){
 
 gulp.task('build', ['static', 'test', 'scripts', 'styles', 'qunit']);
 
-gulp.task('watch', function(){
+gulp.task('watch', function() {
     gulp.watch(globs.static, ['static']);
     gulp.watch(globs.test, ['test']);
     gulp.watch(globs.scripts, ['scripts']);

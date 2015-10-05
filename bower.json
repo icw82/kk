@@ -5,6 +5,6 @@
     "private": true,
     "ignore": [],
     "devDependencies": {
-        "qunit": "~1.16.0"
+        "qunit": "~1.19.0"
     }
 }

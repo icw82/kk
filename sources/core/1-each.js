@@ -3,7 +3,7 @@
 // Если третий аргумент функция — то она выполяется после перебора массива,
 //     если обратная функция ниразу не возвращала true
 // Если последний элемент === true, перебор производится в обратном порядке.
-kk.each = function(array, callback){
+kk.each = function(array, callback) {
     var kenzo = kk,
         args = arguments,
         reverse,
@@ -16,25 +16,28 @@ kk.each = function(array, callback){
     else if (typeof array === kenzo._n)
         array = Array(array);
 
-    if (typeof args[2] == kenzo._f){
+    if (typeof args[2] == kenzo._f) {
         def = args[2];
         if (args[3] === true)
             reverse = true;
-    } else if (args[2] === true){
+    } else if (args[2] === true) {
         reverse = true;
     }
 
-    if (typeof array == kenzo._o && ('length' in array) && typeof callback == kenzo._f){
+    if (
+        ((array instanceof kenzo._A) || (array instanceof kenzo._NL)) &&
+        typeof callback == kenzo._f
+    ) {
         if (reverse) {
-            for (index = array.length - 1; index >= 0; index--){
-                if (callback(array[index], index) === true){
+            for (index = array.length - 1; index >= 0; index--) {
+                if (callback(array[index], index) === true) {
                     nothing = false;
                     break;
                 }
             }
         } else {
-            for (index = 0; index < array.length; index++){
-                if (callback(array[index], index) === true){
+            for (index = 0; index < array.length; index++) {
+                if (callback(array[index], index) === true) {
                     nothing = false;
                     break;
                 }
@@ -44,6 +47,8 @@ kk.each = function(array, callback){
         if (nothing && typeof def == kenzo._f) {
             def();
         }
+    } else if (typeof def == kenzo._f) {
+        def();
     }
 };
 

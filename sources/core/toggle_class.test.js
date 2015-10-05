@@ -1,4 +1,4 @@
-QUnit.test("Kenzo.toggle_class", function(assert){
+QUnit.test("Kenzo.toggle_class", function(assert) {
     if (!kk.d) return false; // если нет DOM
 
     var testarea = document.querySelector('#dom-tests');
@@ -6,18 +6,18 @@ QUnit.test("Kenzo.toggle_class", function(assert){
     assert.ok(!kk.toggle_class(false), 'Проверка на элемент DOM');
 
 
-    function test(current, classes, mask, result, comment){
+    function test(current, classes, mask, result, comment) {
         var element = document.createElement('div');
 
         if (!comment)
             comment = '';
 
-        if (current){
+        if (current) {
             if (typeof current === 'string')
                 current = [current];
 
-            each (current, function(cls){
-                if (typeof cls !== 'string'){
+            each (current, function(cls) {
+                if (typeof cls !== 'string') {
                     console.warn('!!')
                     return false;
                 }
@@ -31,17 +31,17 @@ QUnit.test("Kenzo.toggle_class", function(assert){
         else
             var test_result = kk.toggle_class(element, classes);
 
-        if (result instanceof Array){
-            if (element.classList.length === result.length){
-                if (result.length === 0){
+        if (result instanceof Array) {
+            if (element.classList.length === result.length) {
+                if (result.length === 0) {
                     assert.ok(true, comment);
                 } else {
-                    each (result, function(cls){
-                        if (!element.classList.contains(cls)){
+                    each (result, function(cls) {
+                        if (!element.classList.contains(cls)) {
                             assert.ok(false, comment + ' (несовпадение слассов)');
                             return true;
                         }
-                    }, function(){
+                    }, function() {
                         assert.ok(true, comment);
                     });
                 }
@@ -73,7 +73,7 @@ QUnit.test("Kenzo.toggle_class", function(assert){
     test (null, [12], false, false,
         'второй аргумент может быть только массивом из строк');
 
-    (function(){
+    (function() {
         var element = document.createElement('div');
         testarea.appendChild(element);
         element.classList.add('c1');
@@ -83,7 +83,7 @@ QUnit.test("Kenzo.toggle_class", function(assert){
             'существующий класс убирается');
     })();
 
-    (function(){
+    (function() {
         var element = document.createElement('div');
         testarea.appendChild(element);
         kk.toggle_class(element, 'c1', 'c1');
@@ -92,7 +92,7 @@ QUnit.test("Kenzo.toggle_class", function(assert){
             '(null, c1, c1, null) список (возможных классов) не массив');
     })();
 
-    (function(){
+    (function() {
         var element = document.createElement('div');
         testarea.appendChild(element);
         kk.toggle_class(element, ['c1'], ['c1']);
@@ -101,7 +101,7 @@ QUnit.test("Kenzo.toggle_class", function(assert){
             '(null, [c1], [c1], null) список — массив');
     })();
 
-    (function(){
+    (function() {
         var element = document.createElement('div');
         element.classList.add('c1');
         element.classList.add('c2');
@@ -113,7 +113,7 @@ QUnit.test("Kenzo.toggle_class", function(assert){
             '([c1, c2, c3], [c1], [c1, c2], null) → c3 — переключать имеющиеся классы');
     })();
 
-    (function(){
+    (function() {
         var element = document.createElement('div');
         element.classList.add('c2');
         element.classList.add('c3');

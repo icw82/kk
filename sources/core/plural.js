@@ -1,4 +1,4 @@
-kk.plural = function(){
+kk.plural = function() {
     // TODO: Для других языков.
 
     var kenzo = kk,
@@ -9,19 +9,19 @@ kk.plural = function(){
         second = args[1],
         amount, singular, paucal, plural, fr;
 
-    if (typeof first == kenzo._s){
-        if (langs.indexOf(first) > -1){
+    if (typeof first == kenzo._s) {
+        if (langs.indexOf(first) > -1) {
             lang = first;
             return true;
         } else
             return false;
     }
 
-    if (typeof first == kenzo._n){
+    if (typeof first == kenzo._n) {
         amount = first;
-    } else if (first instanceof kenzo._A){
+    } else if (first instanceof kenzo._A) {
         amount = first.length;
-    } else if (typeof first == kenzo._o){
+    } else if (typeof first == kenzo._o) {
         // NOTE: Может убрать к херам?
         amount = 0;
         for (var j in first)
@@ -37,7 +37,7 @@ kk.plural = function(){
         (typeof second[0] == kenzo._s) &&
         (typeof second[1] == kenzo._s) &&
         (typeof second[2] == kenzo._s)
-    ){
+    ) {
         singular = second[0];
         paucal = second[1];
         plural = second[2];
@@ -46,7 +46,7 @@ kk.plural = function(){
         (typeof args[1] == kenzo._s) &&
         (typeof args[2] == kenzo._s) &&
         (typeof args[3] == kenzo._s)
-    ){
+    ) {
         kenzo.__d();
         return kenzo.plural(amount, [args[1], args[2], args[3]]);
     } else

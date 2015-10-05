@@ -1,4 +1,4 @@
-QUnit.test("Kenzo.each", function(assert){
+QUnit.test("Kenzo.each", function(assert) {
     // TODO: не проверяется индекс при обратном переборе
 
     var each = kk.each,
@@ -7,15 +7,15 @@ QUnit.test("Kenzo.each", function(assert){
         key = false,
         def = false;
 
-    each (array, function(item, i){
+    each (array, function(item, i) {
         if (item === 11)
             un = true;
 
-        if (item === 'a'){
+        if (item === 'a') {
             key = i;
             return true;
         }
-    }, function(){
+    }, function() {
         def = true;
     });
     assert.ok(!un, 'Несуществующий элемент массива');
@@ -23,19 +23,19 @@ QUnit.test("Kenzo.each", function(assert){
     assert.ok(!def, 'Невыполнение дополнительной функции по окнчанию перебора');
 
     key = def = false;
-    each (array, function(item, i){
-        if (item === 'a'){
+    each (array, function(item, i) {
+        if (item === 'a') {
             key = i;
         }
-    }, function(){
+    }, function() {
         def = true;
     }, true);
     assert.ok(key == 2, 'Нахождение ключа элемента в массиве при обратном переборе');
     assert.ok(def, 'Выполенние дополнительной функции по окончании перебора');
 
     key = false;
-    each (array, function(item, i){
-        if (item === 'a'){
+    each (array, function(item, i) {
+        if (item === 'a') {
             key = i;
             return true;
         }
@@ -46,25 +46,35 @@ QUnit.test("Kenzo.each", function(assert){
     if (!kk.d) return false; // если нет DOM
 
     var counter = 0;
-    each ('.test-each', function(item){
+    each ('.test-each', function(item) {
         if (item instanceof Node)
             counter++;
     });
     assert.ok(counter == 7, 'Перебор элементов DOM');
 
     un = key = false;
-    each ({length: 42}, function(item, i){
-        un = item;
-        key = i;
-    });
-    assert.ok(typeof un == 'undefined' && key == 41, 'Псевдоперебор объекта со свойством Length');
-
-
-    un = key = false;
-    each (42, function(item, i){
+    each (42, function(item, i) {
         un = item;
         key = i;
     });
     assert.ok(typeof un == 'undefined' && key == 41, 'Псевдоперебор 42-х элементов');
+
+
+    def = key = false;
+    each ({length: 42}, function(item, i) {
+        un = item;
+        key = i;
+    }, function() {
+        def = true;
+    });
+    assert.ok(key === false && def === true, 'Объект со свойством Length');
+
+    def = key = false;
+    each (null, function(item, i) {
+        key = i;
+    }, function() {
+        def = true;
+    });
+    assert.ok(key === false && def === true, 'Null');
 
 });

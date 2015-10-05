@@ -1,4 +1,4 @@
-kk.get_offset = function(element){
+kk.get_offset = function(element) {
     var boundingClientRect = element.getBoundingClientRect();
 
     // NOTE: Для ie8 может понадобиться полифилл

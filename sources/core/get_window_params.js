@@ -1,4 +1,4 @@
-kk.get_window_params = function(){
+kk.get_window_params = function() {
     var kenzo = kk,
         root = window,
         doc = document,
