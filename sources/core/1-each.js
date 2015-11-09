@@ -27,7 +27,11 @@ kk.each = function(array, callback) {
     }
 
     if (
-        ((array instanceof kenzo._A) || (array instanceof kenzo._NL)) &&
+        (
+            (array instanceof kenzo._A) ||
+            (array instanceof kenzo._NL) ||
+            (array instanceof kenzo._C)
+        ) &&
         typeof callback == kenzo._f
     ) {
         if (reverse) {

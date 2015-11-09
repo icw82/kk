@@ -42,23 +42,6 @@ QUnit.test("Kenzo.each", function(assert) {
     }, true);
     assert.ok(key == 7, 'Нахождение ключа элемента в массиве с остановкой при обратном переборе');
 
-
-    if (!kk.d) return false; // если нет DOM
-
-    var counter = 0;
-    each ('.test-each', function(item) {
-        if (item instanceof Node)
-            counter++;
-    });
-    assert.ok(counter == 7, 'Перебор элементов DOM');
-
-    un = key = false;
-    each (42, function(item, i) {
-        un = item;
-        key = i;
-    });
-    assert.ok(typeof un == 'undefined' && key == 41, 'Псевдоперебор 42-х элементов');
-
     un = key = false;
     each (4.9, function(item, i) {
         un = item;
@@ -66,6 +49,12 @@ QUnit.test("Kenzo.each", function(assert) {
     });
     assert.ok(typeof un == 'undefined' && key == 3, 'Не целое число (окр. в меньшую сторону)');
 
+    un = key = false;
+    each (42, function(item, i) {
+        un = item;
+        key = i;
+    });
+    assert.ok(typeof un == 'undefined' && key == 41, 'Псевдоперебор 42-х элементов');
 
     def = key = false;
     each ({length: 42}, function(item, i) {
@@ -83,5 +72,23 @@ QUnit.test("Kenzo.each", function(assert) {
         def = true;
     });
     assert.ok(key === false && def === true, 'Null');
+
+
+    if (!kk.d) return false; // если нет DOM
+
+
+    var counter = 0;
+    each ('.test-each', function(item) {
+        if (item instanceof Node)
+            counter++;
+    });
+    assert.ok(counter == 7, 'Перебор элементов DOM');
+
+    var counter = 0;
+    each (document.querySelector('#dom-tests').children, function(item) {
+        if (item instanceof Node)
+            counter++;
+    });
+    assert.ok(counter == 7, 'Перебор HTML Коллекции');
 
 });
