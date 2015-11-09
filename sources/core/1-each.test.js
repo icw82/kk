@@ -59,6 +59,13 @@ QUnit.test("Kenzo.each", function(assert) {
     });
     assert.ok(typeof un == 'undefined' && key == 41, 'Псевдоперебор 42-х элементов');
 
+    un = key = false;
+    each (4.9, function(item, i) {
+        un = item;
+        key = i;
+    });
+    assert.ok(typeof un == 'undefined' && key == 3, 'Не целое число (окр. в меньшую сторону)');
+
 
     def = key = false;
     each ({length: 42}, function(item, i) {

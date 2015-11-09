@@ -11,10 +11,12 @@ kk.each = function(array, callback) {
         nothing = true,
         index;
 
+//    console.log('**', array instanceof MutationRecord);
+
     if (typeof array === kenzo._s && kenzo.d)
         array = document.querySelectorAll(array);
     else if (typeof array === kenzo._n)
-        array = Array(array);
+        array = Array(Math.floor(array));
 
     if (typeof args[2] == kenzo._f) {
         def = args[2];
