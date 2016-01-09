@@ -74,6 +74,18 @@ QUnit.test("Kenzo.each", function(assert) {
     assert.ok(key === false && def === true, 'Null');
 
 
+    // TODO: ArrayBuffer
+    var typedArray = new Uint8Array([75, 76, 77])
+    def = key = false;
+    var string = '';
+    each (typedArray, function(item, i) {
+        key = i;
+        string += item;
+    });
+    assert.ok(string === '757677' && key === 2, 'ArrayBuffer');
+
+
+
     if (!kk.d) return false; // если нет DOM
 
 
@@ -90,5 +102,6 @@ QUnit.test("Kenzo.each", function(assert) {
             counter++;
     });
     assert.ok(counter == 7, 'Перебор HTML Коллекции');
+
 
 });
