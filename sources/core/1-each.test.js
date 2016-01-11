@@ -84,6 +84,8 @@ QUnit.test("Kenzo.each", function(assert) {
     });
     assert.ok(string === '757677' && key === 2, 'ArrayBuffer');
 
+    assert.ok(each (1, function(){return true}), 'return true');
+    assert.ok(!each (1, function(){}), 'return nothing');
 
 
     if (!kk.d) return false; // если нет DOM
