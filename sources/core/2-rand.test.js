@@ -1,4 +1,4 @@
-QUnit.test("Kenzo.rand", function(assert) {
+QUnit.test("rand", function(assert) {
     var each = kk.each,
         max = 12,
         min = 12;

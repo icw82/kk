@@ -1,4 +1,4 @@
-QUnit.test("Kenzo.format.phone", function(assert) {
+QUnit.test("format.phone", function(assert) {
 
     assert.ok(kk.format.phone('+70000000000') == '+7 (000) 000-00-00');
     assert.ok(kk.format.phone('80000000000') == '+7 (000) 000-00-00');
@@ -9,7 +9,7 @@ QUnit.test("Kenzo.format.phone", function(assert) {
 
 });
 
-QUnit.test("Kenzo.format.number", function(assert) {
+QUnit.test("format.number", function(assert) {
 
     assert.ok(kk.format.number(111222333) == '111 222 333');
     assert.ok(kk.format.number('111222333') == '111 222 333');

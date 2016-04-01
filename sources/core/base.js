@@ -14,7 +14,8 @@ var root,
         _n: 'number',
         _A: Array,
         __a: function() {cons.error('Некорректные аргументы')},
-        __d: function() {cons.warn('Depricated')}
+        __d: function() {cons.warn('Depricated')},
+        __ae: function() {cons.warn('Уже существует')}
     };
 
 if (typeof window == kenzo._o &&

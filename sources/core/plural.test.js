@@ -1,4 +1,4 @@
-QUnit.test("Kenzo.plural", function(assert) {
+QUnit.test("plural", function(assert) {
 
     var forms = ['1', '2', '3'];
 

@@ -1,4 +1,4 @@
-QUnit.test("Kenzo.toggle_class", function(assert) {
+QUnit.test("toggle_class", function(assert) {
     if (!kk.d) return false; // если нет DOM
 
     var testarea = document.querySelector('#dom-tests');

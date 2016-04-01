@@ -1,4 +1,4 @@
-QUnit.test("Kenzo.each", function(assert) {
+QUnit.test("each", function(assert) {
     // TODO: не проверяется индекс при обратном переборе
 
     var each = kk.each,
@@ -84,8 +84,8 @@ QUnit.test("Kenzo.each", function(assert) {
     });
     assert.ok(string === '757677' && key === 2, 'ArrayBuffer');
 
-    assert.ok(each (1, function(){return true}), 'return true');
-    assert.ok(!each (1, function(){}), 'return nothing');
+    assert.ok(each (1, function() {return true}), 'return true');
+    assert.ok(!each (1, function() {}), 'return nothing');
 
 
     if (!kk.d) return false; // если нет DOM

@@ -1,4 +1,4 @@
-QUnit.test("Kenzo.class", function(assert) {
+QUnit.test("class", function(assert) {
     if (!kk.d) return false; // если нет DOM
 
     var testarea = document.querySelector('#dom-tests');
