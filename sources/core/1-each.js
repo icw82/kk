@@ -1,5 +1,6 @@
 // Перебор массива
-// Если обратная функция возвращает true, перебор прерывается.
+//
+// Перебор прерывается, eсли обратная функция возвращает значение, отличное от undefined и false.
 // Если третий аргумент функция — то она выполяется после перебора массива,
 //     если обратная функция ниразу не возвращала true
 // Если последний элемент === true, перебор производится в обратном порядке.
@@ -37,13 +38,15 @@ kk.each = function(array, callback) {
     ) {
         if (reverse) {
             for (index = array.length - 1; index >= 0; index--) {
-                if (callback(array[index], index) === true)
-                    return true;
+                var result = callback(array[index], index);
+                if (typeof result !== kk._u && result !== false)
+                    return result;
             }
         } else {
             for (index = 0; index < array.length; index++) {
-                if (callback(array[index], index) === true)
-                    return true;
+                var result = callback(array[index], index);
+                if (typeof result !== kk._u && result !== false)
+                    return result;
             }
         }
     }

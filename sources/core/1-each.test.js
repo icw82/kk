@@ -19,7 +19,7 @@ QUnit.test("each", function(assert) {
         def = true;
     });
     assert.ok(!un, 'Несуществующий элемент массива');
-    assert.ok(key == 2, 'Нахождение ключа элемента в массиве с остановкой');
+    assert.equal(key, 2, 'Нахождение ключа элемента в массиве с остановкой');
     assert.ok(!def, 'Невыполнение дополнительной функции по окнчанию перебора');
 
     key = def = false;
@@ -84,8 +84,12 @@ QUnit.test("each", function(assert) {
     });
     assert.ok(string === '757677' && key === 2, 'ArrayBuffer');
 
-    assert.ok(each (1, function() {return true}), 'return true');
-    assert.ok(!each (1, function() {}), 'return nothing');
+    assert.ok(each (2, function() {return true}),
+        'Возрващает результат итерации, если он есть (true)');
+    assert.equal(each (['first', 'seccond'], function(item) {return item}), 'first',
+        'Возрващает результат итерации, если он есть ("first")');
+    assert.ok(typeof each (2, function() {} === kk._u),
+        'Ничего не возвращает, если ни одна итерация ничего не возвратила');
 
 
     if (!kk.d) return false; // если нет DOM

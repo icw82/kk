@@ -1,18 +1,19 @@
 (function() {
 'use strict';
 
-var root,
-    cons = console,
-    kenzo = {
-        v: '3.0.0',
+var root;
+var cons = console;
+var kenzo = {
+        v: '0.1.0',
         w: false, // window (global if not)
         d: false, // root.document
+        _b: 'boolean',
         _o: 'object',
         _f: 'function',
         _u: 'undefined',
         _s: 'string',
         _n: 'number',
-        _A: Array,
+        _A: Array, // TODO: is instance
         __a: function() {cons.error('Некорректные аргументы')},
         __d: function() {cons.warn('Depricated')},
         __ae: function() {cons.warn('Уже существует')}
