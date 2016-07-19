@@ -84,12 +84,17 @@ QUnit.test("each", function(assert) {
     });
     assert.ok(string === '757677' && key === 2, 'ArrayBuffer');
 
-    assert.ok(each (2, function() {return true}),
-        'Возрващает результат итерации, если он есть (true)');
+    assert.equal(each (2, function() {return false}), false,
+        'Возрващает результат итерации, если он есть (False)');
     assert.equal(each (['first', 'seccond'], function(item) {return item}), 'first',
         'Возрващает результат итерации, если он есть ("first")');
-    assert.ok(typeof each (2, function() {} === kk._u),
-        'Ничего не возвращает, если ни одна итерация ничего не возвратила');
+    assert.equal(each (2, function() {}), undefined,
+        'Ничего не возвращает, если ни одна итерация ничего не возвратила или возрватила false');
+
+    assert.equal(each (1, function() {}, function() {return 'default'}), 'default',
+        'Возрващает результат функции по умолчанию, если он есть ("default")');
+    assert.equal(each (1, function() {}, function() {}), undefined,
+        'Ничего не возвращает, если функция по умолчанию ничего не возвращает');
 
 
     if (!kk.d) return false; // если нет DOM
