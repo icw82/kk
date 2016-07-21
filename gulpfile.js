@@ -83,7 +83,7 @@ gulp.task('scripts', function() {
             .pipe(gulp.dest('build/bower-kk'))
             .pipe(rename({suffix: '.min'}))
             .pipe(uglify().on("error", gutil.log))
-            .pipe(sourcemaps.write('./'))
+//            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest('build/scripts'))
             .pipe(gulp.dest('build/bower-kk'));
     });
