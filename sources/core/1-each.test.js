@@ -1,118 +1,185 @@
-QUnit.test("each", function(assert) {
+QUnit.test('each', function(assert) {
     // TODO: не проверяется индекс при обратном переборе
+    const each = kk.each;
 
-    var each = kk.each,
-        array = [5, null, 'a', 584, ['b', 12], {'t': 1, 'a': 2}, 0, 'a', 1],
-        un = false,
-        key = false,
-        def = false;
+    let callback_nothing = () => {};
+    let callback_true = () => true;
+    let callback_false = () => false;
+    let callback_42 = () => 42;
 
-    each (array, function(item, i) {
-        if (item === 11)
-            un = true;
-
-        if (item === 'a') {
-            key = i;
-            return true;
+    {
+        let test
+        try {
+            each([]);
+            test = true;
+        } catch (e) {
+            test = false;
         }
-    }, function() {
-        def = true;
-    });
-    assert.ok(!un, 'Несуществующий элемент массива');
-    assert.equal(key, 2, 'Нахождение ключа элемента в массиве с остановкой');
-    assert.ok(!def, 'Невыполнение дополнительной функции по окнчанию перебора');
+        assert.notOk(test, 'Функция обратного вызова не определена');
+    }
 
-    key = def = false;
-    each (array, function(item, i) {
-        if (item === 'a') {
-            key = i;
+    {
+        let test
+        try {
+            each([], []);
+            test = true;
+        } catch (e) {
+            test = false;
         }
-    }, function() {
-        def = true;
-    }, true);
-    assert.ok(key == 2, 'Нахождение ключа элемента в массиве при обратном переборе');
-    assert.ok(def, 'Выполенние дополнительной функции по окончании перебора');
+        assert.notOk(test, 'Функция обратного вызова не является функцией');
+    }
 
-    key = false;
-    each (array, function(item, i) {
-        if (item === 'a') {
-            key = i;
-            return true;
-        }
-    }, true);
-    assert.ok(key == 7, 'Нахождение ключа элемента в массиве с остановкой при обратном переборе');
+    {
+        let a = {}
+        let test = each(a.un, callback_nothing);
+        assert.equal(typeof test, kk._u,
+            'Игнорирование обратного вызова,' +
+            'если тип переданного объекта не определён');
+    }
 
-    un = key = false;
-    each (4.9, function(item, i) {
-        un = item;
-        key = i;
-    });
-    assert.ok(typeof un == 'undefined' && key == 3, 'Не целое число (окр. в меньшую сторону)');
+    {
+        let test = each(null, callback_nothing);
+        assert.equal(typeof test, kk._u,
+            'Игнорирование обратного вызова,' +
+            'если тип переданного объекта не определён: null');
+    }
 
-    un = key = false;
-    each (42, function(item, i) {
-        un = item;
-        key = i;
-    });
-    assert.ok(typeof un == 'undefined' && key == 41, 'Псевдоперебор 42-х элементов');
+    {
+        let test = each({length: 42}, callback_nothing);
+        assert.equal(typeof test, kk._u,
+            'Игнорирование обратного вызова,' +
+            'если тип переданного объекта не определён: {length: 42}');
+    }
 
-    def = key = false;
-    each ({length: 42}, function(item, i) {
-        un = item;
-        key = i;
-    }, function() {
-        def = true;
-    });
-    assert.ok(key === false && def === true, 'Объект со свойством Length');
+    {
+        let test = each([], callback_nothing, callback_42);
+        assert.equal(test, callback_42(),
+            'Функция по умолчанию возвращает значание');
+    }
 
-    def = key = false;
-    each (null, function(item, i) {
-        key = i;
-    }, function() {
-        def = true;
-    });
-    assert.ok(key === false && def === true, 'Null');
+    {
+        let test = each([], callback_nothing, callback_nothing);
+        assert.equal(typeof test, kk._u,
+            'Функция по умолчанию возвращает «undefined»');
+    }
 
-
-    // TODO: ArrayBuffer
-    var typedArray = new Uint8Array([75, 76, 77])
-    def = key = false;
-    var string = '';
-    each (typedArray, function(item, i) {
-        key = i;
-        string += item;
-    });
-    assert.ok(string === '757677' && key === 2, 'ArrayBuffer');
-
-    assert.equal(each (2, function() {return false}), false,
-        'Возрващает результат итерации, если он есть (False)');
-    assert.equal(each (['first', 'seccond'], function(item) {return item}), 'first',
-        'Возрващает результат итерации, если он есть ("first")');
-    assert.equal(each (2, function() {}), undefined,
-        'Ничего не возвращает, если ни одна итерация ничего не возвратила или возрватила false');
-
-    assert.equal(each (1, function() {}, function() {return 'default'}), 'default',
-        'Возрващает результат функции по умолчанию, если он есть ("default")');
-    assert.equal(each (1, function() {}, function() {}), undefined,
-        'Ничего не возвращает, если функция по умолчанию ничего не возвращает');
-
-
-    if (!kk.d) return false; // если нет DOM
-
-
-    var counter = 0;
-    each ('.test-each', function(item) {
-        if (item instanceof Node)
+    {
+        let counter = 0;
+        let object = [1, 2, 3];
+        let last_index;
+        let test = each(object, function(item, i) {
             counter++;
-    });
-    assert.ok(counter == 7, 'Перебор элементов DOM');
+            last_index = i;
+        });
+        assert.equal(counter, object.length,
+            'Простой перебор без возвращаемых значений: Выполнение функции');
+        assert.equal(typeof test, kk._u,
+            'Простой перебор без возвращаемых значений: Возвращает «undefined»');
+        assert.equal(last_index, object.length - 1,
+            'Передача в функцию обратного вызова порядковый номер элемента массива');
+    }
 
-    var counter = 0;
-    each (document.querySelector('#dom-tests').children, function(item) {
-        if (item instanceof Node)
+    {
+        let counter = 0;
+        let object = [{a: 1}, 2, {c: 3}, 4, {e: 5}];
+        let goal_index = 2;
+        let goal = object[goal_index];
+        let test_index;
+        let test_link;
+        let test = each(object, function(item, i, link) {
             counter++;
-    });
-    assert.ok(counter == 7, 'Перебор HTML Коллекции');
+            test_index = i;
+            if (item === goal) {
+                test_link = link;
+                return item;
+            }
+        }, function() {
+            assert.ok(false, 'Перебор c остановкой: Функция не должна выполняться');
+        });
+        assert.equal(counter, goal_index + 1,
+            'Перебор c остановкой: Выполнение функции и остановка');
+        assert.equal(test, goal,
+            'Перебор c остановкой: Возвращение значения функции обратного вызова');
+        assert.equal(object, test_link,
+            'Передача в функцию обратного вызова ссылку на исходный объект');
+    }
 
+    {
+        let counter = 0;
+        let object = 42;
+        let test = each(object, function(item) {
+            counter++;
+        });
+        assert.equal(counter, object,
+            'Псевдоперебор 42-х элементов');
+    }
 
+    {
+        let counter = 0;
+        let object = -42;
+        let test = each(object, function(item) {
+            counter++;
+        });
+        assert.equal(counter, 0,
+            'Псевдоперебор: Отрицательные числа конвертируются в ноль');
+    }
+
+    {
+        let counter = 0;
+        let object = 4.99;
+        let test = each(object, function(item) {
+            counter++;
+        });
+        assert.equal(counter, 4,
+            'Псевдоперебор: Округление дробного числа к меньшему целому');
+    }
+
+    {
+        let counter = 0;
+        let object = [1, {b: 2}, 3, {d: 4}, 5];
+        let goal_index = 1;
+        let goal = object[goal_index]
+        let test = each(object, function(item) {
+            counter++;
+            if (item === goal)
+                return item;
+        }, true);
+        assert.equal(counter, object.length - goal_index,
+            'Обратный перебор c остановкой: Выполнение функции и остановка');
+
+    }
+
+    {
+        let object = new Uint8Array([12, 42, 82]);
+        let goal = 42;
+        let test = each (object, function(item, i) {
+            if (item === goal)
+                return item;
+        });
+        assert.equal(test, goal, 'Тип переданного объекта — ArrayBuffer');
+    }
+
+    if (!kk.d) return; // если нет DOM
+
+    {
+        let counter = 0;
+        let test = each('.test-each', function(item) {
+            if (kk.is_N) {
+                counter++;
+            }
+        });
+        assert.equal(counter, 7,
+            'Перебор элементов DOM по запросу в форме строки');
+    }
+
+    {
+        let counter = 0;
+        let test = each(document.querySelector('#dom-tests').children, function(item) {
+            if (kk.is_N) {
+                counter++;
+            }
+        });
+        assert.equal(counter, 7,
+            'Перебор элементов DOM по запросу в форме HTML Коллекции');
+    }
 });
