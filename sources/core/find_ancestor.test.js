@@ -1,6 +1,20 @@
-QUnit.test("find_ancestor", function(assert) {
+QUnit.test('find_ancestor', function(assert) {
 
-    assert.ok(true);
-    //assert.ok(kk.format.phone('+70000000000') == '+7 (000) 000-00-00');
+    {
+        let element = document.body.querySelector('#test-find-ancestor');
 
+        assert.notOk(kk.find_ancestor(element, kk.generate_key()),
+            'Несуществующий идентификатор или название класса');
+        assert.ok(kk.find_ancestor(element, 'test-class'),
+            'Нахождение предка');
+        assert.ok(kk.find_ancestor(element, '.test-class'),
+            'Нахождение по классу предка');
+        assert.ok(kk.find_ancestor(element, '#dom-tests-2'),
+            'Нахождение по идентификатору предка');
+        assert.ok(kk.find_ancestor(element, '.test-class', 3),
+            'Нахождение по классу предка c ограничением');
+        assert.notOk(kk.find_ancestor(element, '.test-class', 2),
+            'Ненахождение по классу предка c ограничением');
+    }
+    
 });

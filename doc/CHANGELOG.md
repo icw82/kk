@@ -1,4 +1,7 @@
 
+### 0.4
+* improve __find_ancestor__
+
 ### 0.3
 * kk.Event class
 * __each__: now third argument passed to callback function. It's a link to source array.
@@ -10,7 +13,7 @@
 * now 'each' function can return False
 
 ### 0.1
-* improve 'each' function
+* improve __each__ function
 
 #### 0.0.19
 * kk.proxy
