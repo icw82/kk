@@ -22,11 +22,13 @@ kk.each = function() {
     var reverse = kenzo.is_b(last) ? last : false;
     var index;
     var result;
+    var pseudo = false;
 
     if (kenzo.is_s(first) && kenzo.d) {
         array = kenzo.d.querySelectorAll(first);
     } else if (kenzo.is_n(first)) {
         array = kenzo._A(Math.floor(Math.max(0, first)));
+        pseudo = true;
     } else if (ArrayBuffer.isView(first) && (first.length > 0)) {
         array = kenzo._A.prototype.slice.call(first);
     } else if (kenzo.is_A(first) || kenzo.is_NL(first) || kenzo.is_C(first)) {
@@ -36,13 +38,13 @@ kk.each = function() {
     if (array.length > 0) {
         if (reverse) {
             for (index = array.length - 1; index >= 0; index--) {
-                result = callback(array[index], index, array);
+                result = callback(pseudo ? index : array[index], index, array);
                 if (!kenzo.is_u(result))
                     return result;
             }
         } else {
             for (index = 0; index < array.length; index++) {
-                result = callback(array[index], index, array);
+                result = callback(pseudo ? index : array[index], index, array);
                 if (!kenzo.is_u(result))
                     return result;
             }

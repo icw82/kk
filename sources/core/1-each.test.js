@@ -107,11 +107,17 @@ QUnit.test('each', function(assert) {
     {
         let counter = 0;
         let object = 42;
+        let match = false;
         let test = each(object, function(item) {
+            if (item === 20)
+                match = true;
             counter++;
         });
         assert.equal(counter, object,
             'Псевдоперебор 42-х элементов');
+        assert.ok(match,
+            'Псевдоперебор: в первый аргумент функции обратного вызова' +
+            'возвращает порядковый номер псевдоэлемента');
     }
 
     {
@@ -156,7 +162,7 @@ QUnit.test('each', function(assert) {
             if (item === goal)
                 return item;
         });
-        assert.equal(test, goal, 'Тип переданного объекта — ArrayBuffer');
+        assert.equal(test, goal, 'Тип переданного объекта — TypedArray');
     }
 
     if (!kk.d) return; // если нет DOM

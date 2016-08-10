@@ -19,14 +19,18 @@ var kenzo = {
 //    _N: Node,
 //    _NL: NodeList,
 //    _C: HTMLCollection,
-    __a: function() {cons.error('Некорректные аргументы')},
-    __d: function() {cons.warn('Depricated')},
-    __ae: function() {cons.warn('Уже существует')}
 };
 
 kenzo.msg = {
-    cb: 'Обратный вызов не определён или не является функцией'
+    cb: 'Обратный вызов не определён или не является функцией',
+    ia: 'Некорректные аргументы'
 };
+
+kenzo.__a = function() {cons.error(kenzo.msg.ia)};
+kenzo.__d = function() {cons.warn('Depricated')};
+kenzo.__ae = function() {cons.warn('Уже существует')};
+
+// TODO: errors
 
 ['undefined', 'boolean', 'number', 'string', 'object', 'function'].forEach(function(s) {
     kenzo['_' + s[0]] = s;

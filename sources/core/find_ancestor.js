@@ -14,12 +14,13 @@ kk.find_ancestor = function(descendant, keys, distance) {
     }
 
     function type(key) {
+        var dist = distance;
         if (key[0] === '#')
-            return find(descendant, key.substring(1), distance, true);
+            return find(descendant, key.substring(1), dist, true);
         if (key[0] === '.')
-            return find(descendant, key.substring(1), distance, false);
+            return find(descendant, key.substring(1), dist, false);
 
-        return find(descendant, key, distance, false);
+        return find(descendant, key, dist, false);
     }
 
     function find(descendant, key, distance, type) {

@@ -1,3 +1,7 @@
+### 0.5
+* __get_buffer__ is _Promise_ now
+* __each__: enumeration of pseudo array now returns index of item
+    in first argument of callback function.
 
 ### 0.4
 * improve __find_ancestor__

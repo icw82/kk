@@ -7,6 +7,7 @@
     "trailing": true,
     "lastsemic": true,
     "globals": {
-        "kenzo": true
+        "kenzo": true,
+        "kk": true
     }
 }

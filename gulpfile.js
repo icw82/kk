@@ -1,12 +1,13 @@
-var fs = require('fs'),
-    gulp = require('gulp'),
-    gutil = require('gulp-util'),
-    es = require('event-stream'),
-    del = require('del'),
-    concat = require('gulp-concat'),
-    rename = require('gulp-rename'),
-    uglify = require('gulp-uglify'),
-    sourcemaps = require('gulp-sourcemaps');
+const fs = require('fs');
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const es = require('event-stream');
+const del = require('del');
+const concat = require('gulp-concat');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
+// const pump = require('pump');
+const sourcemaps = require('gulp-sourcemaps');
 
 var globs = {
     static: ['static/**/*', '!static/bower-kk'],
@@ -125,6 +126,16 @@ gulp.task('qunit', function() {
         .pipe(gulp.dest('build/test/qunit/'));
 
 });
+
+// gulp.task('compress', function (cb) {
+//   pump([
+//         gulp.src('lib/*.js'),
+//         uglify(),
+//         gulp.dest('dist')
+//     ],
+//     cb
+//   );
+// });
 
 gulp.task('build', ['static', 'test', 'scripts', 'styles', 'qunit']);
 
