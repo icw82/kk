@@ -1,3 +1,7 @@
+### 0.6
+* __Event__ Теперь имеет состояние выполненного события. При создании новых слушателей
+  их функции выполняются сразу же.
+
 ### 0.5
 * __get_buffer__ is _Promise_ now
 * __each__: enumeration of pseudo array now returns index of item

@@ -61,4 +61,21 @@ QUnit.test('Event', function(assert) {
         assert.equal(count, 1,
             'Удаление слушателя');
     }
+
+    {
+        let count = 0;
+        let listener = () => {count++};
+        let event = new kk.Event();
+        event.complete();
+
+        event.addListener(listener);
+        event.addListener(listener);
+        event.addListener(listener);
+
+        event.dispatch();
+
+        assert.equal(count, 3,
+            'Событие произошло и слушатели обрабатываются сразу');
+    }
+
 });
