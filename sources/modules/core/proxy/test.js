@@ -1,4 +1,4 @@
-QUnit.test('proxy', function(assert) {
+QUnit.test('proxy', assert => {
 
     var test = {
         a: 82
@@ -21,22 +21,24 @@ QUnit.test('proxy', function(assert) {
         console.log('property', property);
     }
 
-    assert.notOk(kk.proxy(),
+    assert.throws(() => kk.proxy(),
         'Проверка аргументов 1');
-    assert.notOk(kk.proxy(test),
+    assert.throws(() => kk.proxy(test),
         'Проверка аргументов 2');
-    assert.notOk(kk.proxy(test, 'WRONG'),
+    assert.throws(() => kk.proxy(test, 'WRONG'),
         'Проверка аргументов 3');
-    assert.notOk(kk.proxy(document.querySelectorAll('div'), callback),
+    assert.throws(() => kk.proxy(document.querySelectorAll('div'), callback),
         'Проверка аргументов 4');
-    assert.notOk(kk.proxy([1, 2, 3], callback),
+    assert.throws(() => kk.proxy([1, 2, 3], callback),
         'Проверка аргументов 5');
 
-    assert.ok(kk.proxy(test, 'key', callback), 'Прокси создан');
-    assert.ok('key' in test, 'Прокси создан 2');
+    kk.proxy(test, 'key', callback);
+    assert.ok('key' in test, 'Прокси создан');
 
-    assert.notOk(kk.proxy(test, 'key', callback), 'Попытка повторного создания');
-//    console.log('----------------------');
+//    assert.notOk(
+//        kk.proxy(test, 'key', callback),
+//        'Попытка повторного создания'
+//    );
 
     assert.equal(test.a, 82,
         'Проверка значения');
@@ -46,19 +48,18 @@ QUnit.test('proxy', function(assert) {
         'Изменение значения');
 
     test.key = 15;
-    assert.ok(kk.proxy(test, callback),
-        'Прокси создан для всех ключей, не изменяя их');
-    assert.equal(test.a, 10,
-        'Прокси создан для всех ключей, не изменяя их');
-    assert.equal(test.key, 15,
-        'Прокси создан для всех ключей, не изменяя их');
 
-    assert.ok(kk.proxy(test2, callback),
-        'Прокси создан для всех ключей, не изменяя их');
+    kk.proxy(test, callback);
+    assert.equal(test.a, 10,
+        'Прокси создан для всех ключей, не изменяя их 1');
+    assert.equal(test.key, 15,
+        'Прокси создан для всех ключей, не изменяя их 2');
+
+    kk.proxy(test2, callback);
     assert.equal(test2.a2, 0,
-        'Прокси создан для всех ключей, не изменяя их');
+        'Прокси создан для всех ключей, не изменяя их 3');
     assert.equal(test2.b2, 12,
-        'Прокси создан для всех ключей, не изменяя их');
+        'Прокси создан для всех ключей, не изменяя их 4');
 
     test2.a2 = 10;
 

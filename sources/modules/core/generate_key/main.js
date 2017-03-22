@@ -1,19 +1,12 @@
 kk.generate_key = function(length) {
-    if (typeof length !== 'number') {
+    var output = '';
+
+    if (!kk.is_n(length) || length < 1)
         length = 1;
-        console.warn('generate_key 1');
-    }
 
-    if (length < 1) {
-        length = 1;
-        console.warn('generate_key 2');
-    }
-
-    var key = '';
-
-    each (length, function() {
-        key += String.fromCharCode(kk.rand(19968, 40869));
+    kk.each (length, function() {
+        output += String.fromCharCode(kk.rand(19968, 40869));
     });
 
-    return key;
+    return output;
 };

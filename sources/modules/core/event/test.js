@@ -1,4 +1,4 @@
-QUnit.test('Event', function(assert) {
+QUnit.test('Event', assert => {
     {
         let event = new kk.Event();
         event.addListener(x => {

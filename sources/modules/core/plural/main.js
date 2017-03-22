@@ -1,15 +1,14 @@
 kk.plural = function() {
     // TODO: Для других языков.
 
-    var kenzo = kk,
-        lang = 'ru',
-        langs = ['ru'],
-        args = arguments,
-        first = args[0],
-        second = args[1],
-        amount, singular, paucal, plural, fr;
+    var lang = 'ru';
+    var langs = ['ru'];
+    var args = arguments;
+    var first = args[0];
+    var second = args[1];
+    var amount, singular, paucal, plural, fr;
 
-    if (typeof first == kenzo._s) {
+    if (kk.is_s(first)) {
         if (langs.indexOf(first) > -1) {
             lang = first;
             return true;
@@ -17,11 +16,11 @@ kk.plural = function() {
             return false;
     }
 
-    if (typeof first == kenzo._n) {
+    if (kk.is_n(first)) {
         amount = first;
-    } else if (first instanceof kenzo._A) {
+    } else if (first instanceof kk._A) {
         amount = first.length;
-    } else if (typeof first == kenzo._o) {
+    } else if (typeof first == kk._o) {
         // NOTE: Может убрать к херам?
         amount = 0;
         for (var j in first)
@@ -33,22 +32,22 @@ kk.plural = function() {
         amount = -amount;
 
     if (
-        (second instanceof kenzo._A) &&
-        (typeof second[0] == kenzo._s) &&
-        (typeof second[1] == kenzo._s) &&
-        (typeof second[2] == kenzo._s)
+        kk.is_A(second) &&
+        kk.is_s(second[0]) &&
+        kk.is_s(second[1]) &&
+        kk.is_s(second[2])
     ) {
         singular = second[0];
         paucal = second[1];
         plural = second[2];
 
     } else if (
-        (typeof args[1] == kenzo._s) &&
-        (typeof args[2] == kenzo._s) &&
-        (typeof args[3] == kenzo._s)
+        kk.is_s(args[1]) &&
+        kk.is_s(args[2]) &&
+        kk.is_s(args[3])
     ) {
-        kenzo.__d();
-        return kenzo.plural(amount, [args[1], args[2], args[3]]);
+//        kk.__d();
+        return kk.plural(amount, [args[1], args[2], args[3]]);
     } else
         return false;
 

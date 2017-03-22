@@ -1,96 +1,82 @@
-kk.proxy = (function(kk) {
+var proxy_storage_name = '__proxy__';
 
-    kk.ProxyStorage = function() {}
+kk.ProxyStorage = function() {}
 
-    var proxy_storage_name = '__proxy__';
+function process(input) {
+    var output = [];
 
-    return function(/*object, [property(-ies),] callback*/) {
-        var proxy_storage;
-        var args = arguments;
-        var object = args[0];
+    var check_and_push = function(item) {
+        if (!~output.indexOf(item))
+            output.push(item);
+    };
 
-        // TODO: Добавить больше исключений
-        if (
-            typeof object !== kk._o ||
-            object instanceof kk._A ||
-            object instanceof kk._NL
-        ) {
-            kk.__a();
-            return;
+    input.forEach(function(item) {
+        if (kk.is_s(item)) {
+            check_and_push(item);
+        } else if (kk.is_A(item)) {
+            process(item).forEach(check_and_push);
         }
+    });
 
-        // Проверка существовоания хранилища переменных
-        if (object[proxy_storage_name] instanceof kk.ProxyStorage) {
-            proxy_storage = object[proxy_storage_name];
-        }
+    return output;
+}
 
-        // Функция вторым аргументом
-        if (typeof args[1] === kk._f) {
-            var callback = args[1];
-            // Прокси для каждого ключа
-            return kk.proxy(object, Object.keys(object), callback);
+/* object, [property(-ies),] callback */
+kk.proxy = function() {
+    var properties = [].slice.call(arguments);
+    var object = properties.shift();
+    var callback = properties.pop();
+    var proxy_storage;
 
-        // Функция третьим аргументом
-        } else if (typeof args[2] === kk._f) {
-            var callback = args[2];
+    // TODO: Добавить больше исключений
+    if (
+        !kk.is_o(object) ||
+        kk.is_A(object) ||
+        kk.is_NL(object) ||
+        !kk.is_f(callback)
+    )
+        throw kk.err.ia;
 
-            // Массив вторым аргументом
-            if (args[1] instanceof kk._A) {
-                kk.each(args[1], create);
-                // TODO: Не возвращает False
-            } else {
-                if (create(args[1]) === false)
-                    return false;
-            }
-        } else {
-            kk.__a();
-            return;
-        }
+    // Проверка существовоания хранилища переменных
+    if (object[proxy_storage_name] instanceof kk.ProxyStorage) {
+        proxy_storage = object[proxy_storage_name];
+    } else {
+        Object.defineProperty(object, proxy_storage_name, {
+            enumerable: false,
+            writable: true
+        });
 
-        function create(property) {
-            // Имя свойства указано
-            if (typeof property === kk._s) {
-                if (!proxy_storage) {
-                    Object.defineProperty(object, proxy_storage_name, {
-                        enumerable: false,
-                        writable: true
-                    });
-
-                    proxy_storage = object[proxy_storage_name] = new kk.ProxyStorage;
-                }
-
-                // Проверка существования прокси
-                if (property in proxy_storage) {
-                    kk.__ae();
-                    return false;
-                }
-
-                // Cуществует ли уже такое свойство
-                if (property in object) {
-                    proxy_storage[property] = object[property];
-                    delete object[property];
-                } else {
-                    proxy_storage[property] = void(0);
-                }
-
-                // Создание прокси
-                Object.defineProperty(object, property, {
-                    enumerable: true,
-                    get: function() {return proxy_storage[property]},
-                    set: function(new_value) {
-                        proxy_storage[property] = new_value;
-                        callback(object, property);
-                    }
-                });
-
-            } else {
-                kk.__a();
-                return;
-            }
-        }
-
-        return true;
-
+        proxy_storage = object[proxy_storage_name] = new kk.ProxyStorage;
     }
 
-})(kk);
+    // Имена свойств не заданы, прокси для каждого ключа
+    if (properties.length === 0) {
+        properties = Object.keys(object);
+    } else {
+        properties = process(properties);
+    }
+
+    properties.forEach(function(property) {
+        // Проверка существования прокси
+        if (property in proxy_storage)
+            return;
+
+        // Cуществует ли уже такое свойство
+        if (property in object) {
+            proxy_storage[property] = object[property];
+            delete object[property];
+        } else {
+            proxy_storage[property] = void(0);
+        }
+
+        // Создание прокси
+        Object.defineProperty(object, property, {
+            enumerable: true,
+            get: function() {return proxy_storage[property]},
+            set: function(value) {
+                proxy_storage[property] = value;
+                callback(object, property);
+            }
+        });
+    });
+}

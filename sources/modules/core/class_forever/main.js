@@ -1,14 +1,14 @@
-kk.class_forever = function(class_name, element){
-    element.classList.add(class_name);
+kk.class_forever = function(name, element) {
+    element.classList.add(name);
 
-    var mo = new MutationObserver(function(mutations){
-        each (mutations, function(mr){
+    var mo = new MutationObserver(function(mutations) {
+        mutations.forEach(function(record) {
             if (
-                (mr.attributeName == 'class') &&
-                (mr.target == element) &&
-                !element.classList.contains(class_name)
-            ){
-                element.classList.add(class_name);
+                (record.attributeName === 'class') &&
+                (record.target === element) &&
+                !element.classList.contains(name)
+            ) {
+                element.classList.add(name);
             }
         });
     });

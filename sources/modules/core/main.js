@@ -20,12 +20,25 @@ var kenzo = {
 
 kenzo.msg = {
     cb: 'Обратный вызов не определён или не является функцией',
-    ia: 'Некорректные аргументы'
+    ia: 'Некорректные аргументы',
+    ae: 'Уже существует'
 };
 
-kenzo.__a = function() {cons.error(kenzo.msg.ia)};
+kenzo.err = {}; // errors
+
+Object.keys(kenzo.msg)
+    .forEach(function(key) {
+        kenzo.err[key] = Error(kenzo.msg[key]);
+    });
+
 kenzo.__d = function() {cons.warn('Depricated')};
-kenzo.__ae = function() {cons.warn('Уже существует')};
+
+kenzo.__a = function() {
+    cons.error(kenzo.msg.ia); kenzo.__d();
+};
+kenzo.__ae = function() {
+    cons.warn(kenzo.msg.ae); kenzo.__d();
+};
 
 // TODO: errors
 

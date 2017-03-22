@@ -1,4 +1,4 @@
-QUnit.test('get_buffer', function(assert) {
+QUnit.test('get_buffer', assert => {
     let test_count = 0;
     let test_file_url = 'buffer-test.txt';
     let test_file_content = 'BUFFER-TEST12334567890abcdefghijklmnopqrstuvwxyz\n';

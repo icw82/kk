@@ -15,7 +15,7 @@ kk.each = function() {
     var callback = args[1];
 
     if (!kk.is_f(callback))
-        throw kk.msg.cb;
+        throw kk.err.cb;
 
     var def = kk.is_f(args[2]) ? args[2] : false;
     var last = args[args.length - 1];

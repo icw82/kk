@@ -1,4 +1,5 @@
-// TODO: возможность задавать промежутки разными способами (начало--конец, начало--длина).
+// TODO: возможность задавать промежутки разными способами
+//       (начало--конец, начало--длина).
 
 /*
 Examples of byte-ranges-specifier values (assuming an entity-body of
@@ -25,15 +26,12 @@ length 10000):
 
 */
 
-(function(kk){
-'use strict';
-
 kk.get_buffer = function(url /*[, range1[, rangeN]]*/) {
-    var ranges = kenzo._A.prototype.slice.call(arguments).splice(1);
+    var ranges = kk._A.prototype.slice.call(arguments).splice(1);
 
     return new Promise(function(resolve, reject) {
         if (!kk.is_s(url))
-            throw new Error(kk.msg.ia);
+            throw kk.err.ia;
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
@@ -97,7 +95,7 @@ kk.get_buffer = function(url /*[, range1[, rangeN]]*/) {
                     })(xhr.getResponseHeader('Content-Type'));
                     var parts = get_parts(xhr.response, separator);
 
-                    kk.each (ranges, function(item) {
+                    ranges.forEach(function(item) {
                         if (item !== false) {
                             response.push(parts.shift());
                         } else {
@@ -112,9 +110,7 @@ kk.get_buffer = function(url /*[, range1[, rangeN]]*/) {
                 console.log('bytes >', bytes);
                 console.log('status >', xhr.status);
                 console.log('range >', xhr.getResponseHeader('Content-Type'));
-
             }
-
         });
 
         xhr.responseType = 'arraybuffer';
@@ -127,7 +123,7 @@ function get_parts(response, separator) {
     var out = [];
     var ranges = get_ranges(response, separator);
 
-    kk.each (ranges, function(item) {
+    ranges.forEach(function(item) {
         var headers = '';
         var headers_array = new Uint8Array(
             response,
@@ -135,7 +131,7 @@ function get_parts(response, separator) {
             item.begin - 4 - item.headers
         );
 
-        kk.each (headers_array, function(item) {
+        headers_array.forEach(function(item) {
             headers += String.fromCharCode(item);
         });
 
@@ -172,7 +168,8 @@ function get_ranges(response, separator){
                         if (view[cur] === 13 && view[cur + 1] === 10){
                             cur += 2;
                             if (ranges.length > 0){
-                                ranges[ranges.length - 1].end = cur - separator.length - 6;
+                                ranges[ranges.length - 1].end =
+                                    cur - separator.length - 6;
                             }
 
                             ranges.push({headers: cur});
@@ -197,7 +194,8 @@ function get_ranges(response, separator){
 
                         } else if (view[cur] === 45 && view[cur + 1] === 45){
                             // Последние два дефиса
-                            ranges[ranges.length - 1].end = cur - separator.length - 4;
+                            ranges[ranges.length - 1].end =
+                                cur - separator.length - 4;
                         }
                     }
                 } else {
@@ -213,5 +211,3 @@ function get_ranges(response, separator){
 
     return ranges;
 }
-
-})(kk);
