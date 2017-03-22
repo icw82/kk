@@ -324,3 +324,37 @@ window.addEventListener('keyup', function(event) {
 
     });
 })();
+
+/*
+
+Artist name=ARTIST;
+Track title=TITLE;
+Date=DATE;
+Release date=RELEASE DATE;
+Genre=GENRE;
+Style=STYLE;
+Mood=MOOD;
+Track number=TRACKNUMBER;
+Album title=ALBUM;
+Album artist=ALBUM ARTIST;
+Publisher=PUBLISHER;
+ID=PUB_ID;
+Composer=COMPOSER;
+Performer=PERFORMER;
+Remixed by=REMIXED BY;
+Soundtrack=SOUNDTRACK;
+Country=COUNTRY;
+Language=LANGUAGE;
+Voice=VOICE;
+Beats per minute=BPM;
+Lib: owner=LIB_OWNER;
+Lib: year=LIB_YEAR;
+Lib: month=LIB_MONTH;
+Lib: day=LIB_DAY;
+Lib: order=LIB_ORD;
+Lib: fav rank=LIB_FAV;
+Comment=COMMENT;
+Lyrics=LYRICS;
+Discogs ID=DISCOGS_ID;
+
+*/

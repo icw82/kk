@@ -1,9 +1,8 @@
 {
-    "name": "kenzo-kit",
+    "name": "kk-sources",
     "version": "0.0.0",
     "authors": ["icw82"],
     "private": true,
-    "ignore": [],
     "devDependencies": {
         "qunit": "~2"
     }

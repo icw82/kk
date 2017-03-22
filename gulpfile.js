@@ -1,148 +1,25 @@
-const fs = require('fs');
-const gulp = require('gulp');
-const gutil = require('gulp-util');
-const es = require('event-stream');
-const del = require('del');
-const concat = require('gulp-concat');
-const rename = require('gulp-rename');
-const uglify = require('gulp-uglify');
-// const pump = require('pump');
-const sourcemaps = require('gulp-sourcemaps');
+'use strict';
 
-var globs = {
-    static: ['static/**/*', '!static/bower-kk'],
-    test: ['sources/**/*.test.js'],
-    scripts: ['sources/**/*.js', 'sources/**/*.test.js'],
-    qunit: {
-        js: '',
-        css: ''
-    }
+const fs = require('fs');
+const is = require('./tools/is');
+//const babel = require('gulp-babel');
+//const flatten = require('gulp-flatten');
+
+if (
+    !is.dir('./sources') ||
+    !is.dir('./sources/modules') ||
+    !is.dir('./sources/immutable')
+) {
+    throw Error(
+        ['\x1b[31m', '\x1b[0m'].join('%s'),
+        path + ' — не существует'
+    );
 }
 
-gulp.task('clean', function(callback) {
-    del.sync([
-        'build/**/*',
-        '!build/bower-kk',
-        'build/bower-kk/**/*',
-        '!build/bower-kk/.git'
-    ]);
-
-    callback();
+const tasks_dir = './tasks/';
+const tasks = fs.readdirSync(tasks_dir);
+tasks.forEach(task => {
+    const path = tasks_dir + '/' + task;
+    if (is.file(path))
+        require(path);
 });
-
-gulp.task('static', function() {
-    var dev = gulp
-        .src(globs.static)
-        .pipe(gulp.dest('build'));
-
-    var bower = gulp
-        .src(['static/bower-kk'])
-        .pipe(gulp.dest('build'));
-
-    return es
-        .merge(dev, bower);
-});
-
-gulp.task('test', function() {
-    return gulp
-        .src(globs.test)
-        .pipe(concat('test.js'))
-        .pipe(gulp.dest('build/test'));
-});
-
-gulp.task('scripts', function() {
-    fs.readdir('sources', function(errors, list) {
-        if (errors) return false;
-
-        var ext = 'js',
-            streams = [];
-
-        list.forEach(function(name) {
-            if (fs.statSync('sources/' + name).isDirectory()) {
-                var paths = [
-                    'sources/' + name + '/base.' + ext,
-                    'sources/' + name + '/*.' + ext,
-                    '!sources/' + name + '/*.test.' + ext
-                ];
-
-                if (name === 'core')
-                    name = 'kk';
-                else
-                    name = 'kk-' + name;
-
-                var stream = gulp
-                    .src(paths)
-                    .pipe(sourcemaps.init())
-                    .pipe(concat(name + '.' + ext));
-
-                streams.push(stream);
-            }
-        });
-
-        es.merge.apply(this, streams)
-            .pipe(gulp.dest('build/scripts'))
-            .pipe(gulp.dest('build/bower-kk'))
-            .pipe(rename({suffix: '.min'}))
-            .pipe(uglify().on("error", gutil.log))
-//            .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('build/scripts'))
-            .pipe(gulp.dest('build/bower-kk'));
-    });
-});
-
-gulp.task('styles', function() {
-    fs.readdir('sources', function(errors, list) {
-        if (errors) return false;
-
-        var ext = 'css',
-            streams = [];
-
-        list.forEach(function(name) {
-            if (fs.statSync('sources/' + name).isDirectory()) {
-                var path = 'sources/' + name + '/*.' + ext;
-
-                if (name === 'core')
-                    name = 'kk';
-                else
-                    name = 'kk-' + name;
-
-                var stream = gulp
-                    .src(path)
-                    .pipe(concat(name + '.' + ext));
-
-                streams.push(stream);
-            }
-        });
-
-        es.merge.apply(this, streams)
-            .pipe(gulp.dest('build/styles'))
-            .pipe(gulp.dest('build/bower-kk'))
-    });
-});
-
-gulp.task('qunit', function() {
-    return gulp
-        .src(['bower_components/qunit/qunit/*'])
-        .pipe(gulp.dest('build/test/qunit/'));
-
-});
-
-// gulp.task('compress', function (cb) {
-//   pump([
-//         gulp.src('lib/*.js'),
-//         uglify(),
-//         gulp.dest('dist')
-//     ],
-//     cb
-//   );
-// });
-
-gulp.task('build', ['static', 'test', 'scripts', 'styles', 'qunit']);
-
-gulp.task('watch', function() {
-    gulp.watch(globs.static, ['static']);
-    gulp.watch(globs.test, ['test']);
-    gulp.watch(globs.scripts, ['scripts']);
-});
-
-gulp.task('default', ['clean', 'build', 'watch']);
