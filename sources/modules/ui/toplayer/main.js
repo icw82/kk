@@ -1,22 +1,31 @@
-//kenzo.toplayer = (function() {
-//    var _ = {},
-//        top_layer = document.querySelector('.layout-top-layer');
-//
-//    if (!(top_layer instanceof Element)) return false;
-//
-//    var popup_layer = top_layer.querySelector('.layout-wrapper'),
-//        shadow_layer = top_layer.querySelector('.layout-top-layer__shadow');
-//
-//    if (!(popup_layer instanceof Element)) {
-//        console.warn('Отсутсвует верхний слой');
-//        return false
-//    }
-//
-//    if (!(shadow_layer instanceof Element)) {
-//        console.warn('Отсутсвует затеняющий слой');
-//        return false
-//    }
-//
+var module = {};
+
+var top_layer = document.querySelector('.layout-top-layer');
+if (!kk.is_E(top_layer)) {
+    console.log('Верхний слой не обнаружен');
+    return;
+}
+
+var popup_layer = document.querySelector('.layout-top-layer');
+if (!kk.is_E(popup_layer)) {
+    console.log('Слой для панелей не обнаружен');
+    return;
+}
+
+var shadow_layer = document.querySelector('.layout-top-layer');
+if (!kk.is_E(shadow_layer)) {
+    console.log('Затеняющий слой не обнаружен');
+    return;
+}
+
+module.show = function() {
+
+}
+
+
+kk.toplayer = module;
+
+
 //    _.show = function(show_shadow_layer) {
 //        top_layer.classList.add('visible');
 //        if (show_shadow_layer === true)

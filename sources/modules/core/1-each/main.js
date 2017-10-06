@@ -31,6 +31,7 @@ kk.each = function() {
         pseudo = true;
     } else if (ArrayBuffer.isView(first) && (first.length > 0)) {
         array = kk._A.prototype.slice.call(first);
+        //var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments));
     } else if (kk.is_A(first) || kk.is_NL(first) || kk.is_C(first)) {
         array = first;
     }

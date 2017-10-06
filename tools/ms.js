@@ -4,6 +4,7 @@ const Stream = require('stream').Stream;
 
 const mod = function( /*streams...*/ ) {
     var toMerge = [].slice.call(arguments)
+    //var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments));
 
     if (toMerge.length === 1 && (toMerge[0] instanceof Array)) {
         toMerge = toMerge[0] //handle array as arguments object

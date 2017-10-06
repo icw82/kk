@@ -1,62 +1,61 @@
-kk.viewport = (function(kenzo, window, document) {
-    var root = document.documentElement;
-    var body = document.body;
-    var define = Object.defineProperty;
-    var _ = {
-        root: {}
-    };
+if (!kk.d) return;
 
-    if (window.pageXOffset !== kenzo._u) {
-        define(_, 'x', {
-            get: function() {
-                return window.pageXOffset
-            }
-        });
+var define = Object.defineProperty;
+var body = kk.d.body;
+var viewport = {
+    body: {},
+};
 
-        define(_, 'y', {
-            get: function() {
-                return window.pageYOffset
-            }
-        });
+viewport.root = viewport.body; // DEPRECATED
+kk.viewport = viewport;
 
-    } else {
-        define(_, 'x', {
-            get: function() {
-                return (root || body.parentNode || body).scrollLeft
-            }
-        });
+if (kk.is_n(kk.r.pageXOffset)) {
+    define(viewport, 'x', {
+        get: function() {
+            return kk.r.pageXOffset
+        }
+    });
 
-        define(_, 'y', {
-            get: function() {
-                return (root || body.parentNode || body).scrollTop
-            }
-        });
+    define(viewport, 'y', {
+        get: function() {
+            return kk.r.pageYOffset
+        }
+    });
+
+} else {
+    define(viewport, 'x', {
+        get: function() {
+            return (kk.d || body.parentNode || body).scrollLeft
+        }
+    });
+
+    define(viewport, 'y', {
+        get: function() {
+            return (kk.d || body.parentNode || body).scrollTop
+        }
+    });
+}
+
+define(viewport, 'w', {
+    get: function() {
+        return kk.r.innerWidth
     }
+});
 
-    define(_, 'w', {
-        get: function() {
-            return window.innerWidth
-        }
-    });
+define(viewport, 'h', {
+    get: function() {
+        return kk.r.innerHeight
+    }
+});
 
-    define(_, 'h', {
-        get: function() {
-            return window.innerHeight
-        }
-    });
+define(viewport.body, 'w', {
+    get: function() {
+        return kk.d.clientWidth
+    }
+});
 
-    define(_.root, 'w', {
-        get: function() {
-            return root.clientWidth
-        }
-    });
-
-    define(_.root, 'h', {
-        get: function() {
-            return root.clientHeight
-        }
-    });
-
-    return _;
-
-})(kk, window, document)
+define(viewport.body, 'h', {
+    get: function() {
+        return kk.d.clientHeight
+    }
+});

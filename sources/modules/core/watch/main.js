@@ -22,8 +22,9 @@ function process(input) {
 }
 
 /* object, [property(-ies),] callback */
-kk.proxy = function() {
+kk.watch = function() {
     var properties = [].slice.call(arguments);
+    //var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments));
     var object = properties.shift();
     var callback = properties.pop();
     var proxy_storage;

@@ -27,6 +27,7 @@ length 10000):
 */
 
 kk.get_buffer = function(url /*[, range1[, rangeN]]*/) {
+    //var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments));
     var ranges = kk._A.prototype.slice.call(arguments).splice(1);
 
     return new Promise(function(resolve, reject) {

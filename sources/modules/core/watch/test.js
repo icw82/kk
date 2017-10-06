@@ -1,4 +1,4 @@
-QUnit.test('proxy', assert => {
+QUnit.test('watch', assert => {
 
     var test = {
         a: 82
@@ -21,22 +21,22 @@ QUnit.test('proxy', assert => {
         console.log('property', property);
     }
 
-    assert.throws(() => kk.proxy(),
+    assert.throws(() => kk.watch(),
         'Проверка аргументов 1');
-    assert.throws(() => kk.proxy(test),
+    assert.throws(() => kk.watch(test),
         'Проверка аргументов 2');
-    assert.throws(() => kk.proxy(test, 'WRONG'),
+    assert.throws(() => kk.watch(test, 'WRONG'),
         'Проверка аргументов 3');
-    assert.throws(() => kk.proxy(document.querySelectorAll('div'), callback),
+    assert.throws(() => kk.watch(document.querySelectorAll('div'), callback),
         'Проверка аргументов 4');
-    assert.throws(() => kk.proxy([1, 2, 3], callback),
+    assert.throws(() => kk.watch([1, 2, 3], callback),
         'Проверка аргументов 5');
 
-    kk.proxy(test, 'key', callback);
+    kk.watch(test, 'key', callback);
     assert.ok('key' in test, 'Прокси создан');
 
 //    assert.notOk(
-//        kk.proxy(test, 'key', callback),
+//        kk.watch(test, 'key', callback),
 //        'Попытка повторного создания'
 //    );
 
@@ -49,13 +49,13 @@ QUnit.test('proxy', assert => {
 
     test.key = 15;
 
-    kk.proxy(test, callback);
+    kk.watch(test, callback);
     assert.equal(test.a, 10,
         'Прокси создан для всех ключей, не изменяя их 1');
     assert.equal(test.key, 15,
         'Прокси создан для всех ключей, не изменяя их 2');
 
-    kk.proxy(test2, callback);
+    kk.watch(test2, callback);
     assert.equal(test2.a2, 0,
         'Прокси создан для всех ключей, не изменяя их 3');
     assert.equal(test2.b2, 12,
