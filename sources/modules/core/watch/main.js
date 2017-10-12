@@ -71,6 +71,7 @@ kk.watch = function() {
         }
 
         // Создание прокси
+        // FIXME: привести в соответствие с Proxy
         Object.defineProperty(object, property, {
             enumerable: true,
             get: function() {return proxy_storage[property]},

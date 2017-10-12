@@ -70,6 +70,7 @@ if (kenzo.is_o(root.document))
 
 [
     [Array, 'A'],
+    [ArrayBuffer, 'AB'],
     [Element, 'E'],
     [Node, 'N'],
     [NodeList, 'NL'],

@@ -1,16 +1,18 @@
 QUnit.test('get_buffer', assert => {
     let test_count = 0;
     let test_file_url = 'buffer-test.txt';
-    let test_file_content = 'BUFFER-TEST12334567890abcdefghijklmnopqrstuvwxyz\n';
+    let test_file_content =
+        'BUFFER-TEST12334567890abcdefghijklmnopqrstuvwxyz\n';
 
     {
         test_count++;
+        let label = 'Без аргументов';
 
         kk.get_buffer().then(result => {
-            assert.ok(false, 'Не должно работать без аргументов');
+            assert.ok(false, label);
             done();
         }, error => {
-            assert.ok(true, 'Без аргументов');
+            assert.ok(true, label);
             done();
         });
     }
@@ -61,26 +63,11 @@ QUnit.test('get_buffer', assert => {
     }
 
     {
-        test_count++;
-        let label = 'Сумма отрезков больше длины файла и Отсеивание неправильных аргументов';
-
-        kk.get_buffer(test_file_url, [-2], ['2', 4], [-2, 4], '-5', [0, 5], 5, -5).then(result => {
-            const view = new Uint8Array(result.content);
-            const string = kk.i8ArrayToString(view);
-            assert.ok(string === test_file_content, label);
-            done();
-        }, error => {
-            assert.ok(false, label);
-            done();
-        });
-    }
-
-    {
         test_count += 4;
         let label = 'Три среза и один неправильный аргумент';
 
         kk.get_buffer(test_file_url, [5, 10], [0, 5], '', -5).then(result => {
-            assert.ok(result[2] === false, 'один неправильный аргумент');
+            assert.ok(kk.is_u(result[2]), 'один неправильный аргумент');
             done();
 
             {
