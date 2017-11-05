@@ -6,14 +6,17 @@ const task_name = path.basename(__filename, '.js');
 const info = require('./../package.json');
 
 const scan_structure = require('./../tools/scan_structure');
-const uglify_error_handler = require('./../tools/uglify_error_handler');
+// const uglify_error_handler = require('./../tools/uglify_error_handler');
 //const ms = require('./../tools/ms');
 const streamqueue = require('streamqueue');
 const insert = require('gulp-insert');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
-const uglify = require('gulp-uglify');
+const minify = require("gulp-babel-minify");
+// const uglify = require('gulp-uglify');
+const babel = require('gulp-babel');
 const replace = require('gulp-replace');
+const clone = require('gulp-clone');
 
 const ext = '.js'
 const glob = [
@@ -62,13 +65,32 @@ const task = () => new Promise((resolve, reject) => {
                     .pipe(insert.wrap(...wraps.kk))
                 ));
 
-                queue.done()
+                const source = queue.done()
                     .pipe(concat(file_name))
                     .pipe(replace(/::version::/g, info.version))
                     .pipe(insert.wrap('\'use strict\';\n\n', ''))
                     .pipe(gulp.dest('build/bower-kk'))
+
+                const min = source.pipe(clone())
                     .pipe(rename({suffix: '.min'}))
-                    .pipe(uglify().on('error', uglify_error_handler))
+                    .pipe(minify({
+                        mangle: {
+                            keepClassName: true
+                        }
+                    }))
+                    .pipe(gulp.dest('build/bower-kk'))
+
+                const es5 = source.pipe(clone())
+                    .pipe(rename({suffix: '.es5'}))
+                    .pipe(rename({suffix: '.min'}))
+                    .pipe(babel({
+                        presets: ['env']
+                    }))
+                    .pipe(minify({
+                        mangle: {
+                            keepClassName: true
+                        }
+                    }))
                     .pipe(gulp.dest('build/bower-kk'));
 
                 done();
