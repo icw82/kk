@@ -1,9 +1,0 @@
-{
-    "name": "kk-sources",
-    "version": "0.0.0",
-    "authors": ["icw82"],
-    "private": true,
-    "devDependencies": {
-        "qunit": "~2"
-    }
-}

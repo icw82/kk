@@ -69,7 +69,7 @@ const task = () => new Promise((resolve, reject) => {
                     .pipe(concat(file_name))
                     .pipe(replace(/::version::/g, info.version))
                     .pipe(insert.wrap('\'use strict\';\n\n', ''))
-                    .pipe(gulp.dest('build/bower-kk'))
+                    .pipe(gulp.dest('build/package'))
 
                 const min = source.pipe(clone())
                     .pipe(rename({suffix: '.min'}))
@@ -78,7 +78,7 @@ const task = () => new Promise((resolve, reject) => {
                             keepClassName: true
                         }
                     }))
-                    .pipe(gulp.dest('build/bower-kk'))
+                    .pipe(gulp.dest('build/package'))
 
                 const es5 = source.pipe(clone())
                     .pipe(rename({suffix: '.es5'}))
@@ -91,7 +91,7 @@ const task = () => new Promise((resolve, reject) => {
                             keepClassName: true
                         }
                     }))
-                    .pipe(gulp.dest('build/bower-kk'));
+                    .pipe(gulp.dest('build/package'));
 
                 done();
             }

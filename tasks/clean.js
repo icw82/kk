@@ -8,9 +8,9 @@ const del = require('del');
 
 const task = done => del([
     'build/**/*',
-    '!build/bower-kk',
-    'build/bower-kk/**/*',
-    '!build/bower-kk/.git'
+    '!build/package',
+    'build/package/**/*',
+    '!build/package/.git'
 ], done);
 
 gulp.task(task_name, task);

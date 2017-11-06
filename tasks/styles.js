@@ -54,12 +54,12 @@ const task = () => new Promise((resolve, reject) => {
                 queue.done()
                     .pipe(concat(file_name))
                     .pipe(replace(/::version::/g, info.version))
-                    .pipe(gulp.dest('build/bower-kk'))
+                    .pipe(gulp.dest('build/package'))
                     .pipe(rename({suffix: '.min'}))
                     .pipe(csso().on('error', error => {
                         console.log(error);
                     }))
-                    .pipe(gulp.dest('build/bower-kk'));
+                    .pipe(gulp.dest('build/package'));
 
                 done();
             }

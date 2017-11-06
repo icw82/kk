@@ -6,7 +6,7 @@ const task_name = path.basename(__filename, '.js');
 const info = require('./../package.json');
 
 gulp.task(task_name + ':qunit', () => gulp
-    .src(['bower_components/qunit/qunit/*'])
+    .src(['node_modules/qunit/qunit/*'])
     .pipe(gulp.dest('build/test/qunit/'))
 );
 
