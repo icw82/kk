@@ -12,6 +12,7 @@ var kenzo = {
 //    _s: 'string',
 //    _n: 'number',
 //    _A: Array,
+//    _D: Date,
 //    _E: Element,
 //    _N: Node,
 //    _NL: NodeList,
@@ -71,6 +72,7 @@ if (kenzo.is_o(root.document))
 [
     [Array, 'A'],
     [ArrayBuffer, 'AB'],
+    [Date, 'D'],
     [Element, 'E'],
     [Node, 'N'],
     [NodeList, 'NL'],

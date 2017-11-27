@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <meta charset="utf-8">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="robots" content="index,follow" />
+    <meta name="fragment" content="!" />
+
+    <base href="/">
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+    <link rel="stylesheet" href="/package/kk-reset.css" />
+    <style>
+        body{
+            padding: 1vmax 2vmax;
+            background-color: rgba(0, 0, 0, .8);
+            color: rgba(255, 253, 242, .8);
+            font-family: "PT Sans";
+            font-size: 1vmax;
+        }
+
+        header{
+            font-size: 2vmax;
+            line-height: 2vmax;
+            margin-bottom: 1vmax;
+        }
+
+        .refresh-button{font-size: 1.2vmax}
+
+        .test-area{
+            width: 80vw; height: 75vh;
+            overflow: hidden;
+            background-color: rgb(255, 250, 220);
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 10px;
+        }
+
+        .test-area ul{
+            display: block;
+        }
+        .test-area li{
+            display: inline-block; box-sizing: border-box;
+            height: 5vh;
+            background-color: rgba(0, 0, 0, .2);
+            border: 1px solid rgba(0, 0, 0, .2);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            Kenzo Kit ::version::: billboard
+            <button class="refresh-button">Обновить</button>
+        </h1>
+    </header>
+
+    <div class="test-area"></div>
+
+    <script src="/package/kk.js"></script>
+    <script src="/package/kk-ui.js"></script>
+    <script>
+        const refresh_button = document.querySelector('.refresh-button');
+        const test_area = document.querySelector('.test-area');
+
+        const ranges = {
+            width: [4, 4],
+            height: [5, 6]
+        }
+
+        const get_random_source =
+            (width, height) =>
+            Array(Math.round(width * height * 2))
+                .fill()
+                .map(() => { return {
+                    width: kk.rand(1, width)
+                }});
+
+        const refresh = () => {
+            const width = kk.rand(...ranges.width);
+            const height = kk.rand(...ranges.height);
+
+            refresh_button.innerHTML = `${ width }×${ height }`;
+
+            const billboard = new kk.ui.Billboard(
+                get_random_source(width, height)
+            );
+            billboard.set_size(width, height);
+
+            console.log(billboard);
+
+            const list = billboard.list.reduce(
+                (prev, current, index) => {
+                    const w = current.width/width * 100
+                    return `${ prev }<li style="width: ${ w }%">
+                        ${ index } [${ current.width }]
+                    </li>`
+                },
+                ``
+            );
+
+            test_area.innerHTML = `<ul>${list}</ul>`;
+            test_area.querySelector('ul').style.background =
+                `linear-gradient(rgba(0,0,0,0) ${5 * height}vh, rgba(0,0,0,.6) ${5 * height}vh)`;
+        }
+
+        refresh();
+
+        refresh_button.addEventListener('click', refresh);
+    </script>
+</body>
+</html>
