@@ -1,12 +1,8 @@
-kk.generate_key = function(length) {
-    var output = '';
-
+kk.generate_key = length => {
     if (!kk.is_n(length) || length < 1)
         length = 1;
 
-    kk.each (length, function() {
-        output += String.fromCharCode(kk.rand(19968, 40869));
-    });
-
-    return output;
+    return Array(length).fill('').reduce((prev, item) =>
+        prev + String.fromCharCode(kk.rand(19968, 40869))
+    , '');
 };

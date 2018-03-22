@@ -1,5 +1,5 @@
 QUnit.test('Event', assert => {
-    {
+    { // 1
         let event = new kk.Event();
         event.addListener(x => {
             assert.ok(true,
@@ -8,7 +8,7 @@ QUnit.test('Event', assert => {
         event.dispatch();
     }
 
-    {
+    { // 2
         let event = new kk.Event();
         event.addListener(x => {
             assert.equal(x, 'x',
@@ -17,7 +17,7 @@ QUnit.test('Event', assert => {
         event.dispatch('x');
     }
 
-    {
+    { // 3
         let key = kk.generate_key(5);
         let event = new kk.Event(key);
         event.addListener(x => {
@@ -27,7 +27,7 @@ QUnit.test('Event', assert => {
         event.dispatch(key, 'z');
     }
 
-    {
+    { // 4
         let key = kk.generate_key(5);
         let event = new kk.Event(key);
         event.addListener(x => {
@@ -37,7 +37,7 @@ QUnit.test('Event', assert => {
         event.dispatch('y');
     }
 
-    {
+    { // 5
         let count = 0;
         let listener = () => {count++};
         let event = new kk.Event();
@@ -49,7 +49,7 @@ QUnit.test('Event', assert => {
             'Слушатель вызывается один раз')
     }
 
-    {
+    { // 6
         let count = 0;
         let listener = () => {count++};
         let event = new kk.Event();
@@ -62,11 +62,14 @@ QUnit.test('Event', assert => {
             'Удаление слушателя');
     }
 
-    {
+    { // 7 + 8
         let count = 0;
         let listener = () => {count++};
         let event = new kk.Event();
         event.complete();
+
+        assert.ok(event.state.completed,
+            'Получено состояние: Событие произошло');
 
         event.addListener(listener);
         event.addListener(listener);
@@ -76,6 +79,7 @@ QUnit.test('Event', assert => {
 
         assert.equal(count, 3,
             'Событие произошло и слушатели обрабатываются сразу');
+
     }
 
 });
