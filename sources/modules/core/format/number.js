@@ -1,4 +1,4 @@
-function number(input) {
+kk.format.number = input => {
     if (kk.is_n(input))
         input = String(input);
 

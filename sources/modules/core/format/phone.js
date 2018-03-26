@@ -1,6 +1,6 @@
 // Российские номера
 // TODO: не только российские
-function phone(input) {
+kk.format.phone = input => {
     if (kk.is_n(input))
         input = String(input);
 

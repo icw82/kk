@@ -15,3 +15,28 @@ QUnit.test('format.phone', assert => {
     assert.ok(kk.format.phone('+7(0000)000000') == '+7 (000) 000-00-00');
 
 });
+
+QUnit.test('format.camelize', assert => {
+    assert.equal(
+        kk.format.camelize('oneTwo-three_four –Five--six___Seven—Eight8'),
+        'OneTwoThreeFourFiveSixSevenEight8'
+    );
+
+    assert.equal(
+        kk.format.camelize('oneTwo-three_four –Five--six___Seven—Eight8', true),
+        'oneTwoThreeFourFiveSixSevenEight8'
+    );
+
+    assert.equal(
+        kk.format.camelize('-one-Two'),
+        'OneTwo'
+    );
+
+});
+
+QUnit.test('format.decamelize', assert => {
+    assert.equal(
+        kk.format.decamelize('oneTwo-three_four –Five--six___Seven—Eight8'),
+        'one-two-three-four-five-six-seven-eight8'
+    );
+});
