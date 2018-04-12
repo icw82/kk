@@ -13,7 +13,6 @@ const insert = require('gulp-insert');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const minify = require("gulp-babel-minify");
-// const uglify = require('gulp-uglify');
 const babel = require('gulp-babel');
 const replace = require('gulp-replace');
 const clone = require('gulp-clone');
@@ -25,8 +24,8 @@ const glob = [
 ];
 
 const wraps = {
-    empty: ['(function() {\n', '\n})();\n'],
-    kk: ['(function(kk) {\n', '\n})(kk);\n']
+    empty: ['(() => {\n', '\n})();\n'],
+    kk: ['(kk => {\n', '\n})(kk);\n']
 }
 
 const task = () => new Promise((resolve, reject) => {

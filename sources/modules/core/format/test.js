@@ -40,3 +40,10 @@ QUnit.test('format.decamelize', assert => {
         'one-two-three-four-five-six-seven-eight8'
     );
 });
+
+QUnit.test('format.capitalize', assert => {
+    assert.equal(
+        kk.format.capitalize('one Two three'),
+        'One Two three'
+    );
+});
