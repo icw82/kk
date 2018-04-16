@@ -4,7 +4,7 @@ kk.ls = (function(kk, localStorage) {
 
     _.create = function() {
         kk.each (arguments, function(item) {
-            if ((typeof item == kk._s) && (!localStorage.getItem(item))) {
+            if ((kk.is.s(item)) && (!localStorage.getItem(item))) {
                 localStorage.setItem(item, JSON.stringify([]));
                 localStorage.setItem('@' + item, kk.ts());
             }

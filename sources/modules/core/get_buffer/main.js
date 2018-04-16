@@ -1,23 +1,23 @@
 kk.get_buffer = function(/*url, [ranges,] in_one_request =  false*/) {
-    var args = kk._A.prototype.slice.call(arguments);
+//    console.log(arguments);
 
-    return new Promise(function(resolve, reject) {
+    var args = Array.prototype.slice.call(arguments);
+
+    return new Promise((resolve, reject) => {
         try {
             var url = args.shift();
             var ranges;
             var in_one_request = false;
 
-            if (args.length > 1 && kk.is_b(args[args.length - 1]))
+            if (args.length > 1 && kk.is.b(args[args.length - 1]))
                 in_one_request = args.pop();
 
             ranges = args;
 
-            // console.log(url, ranges, in_one_request);
+//            console.log(url, ranges, in_one_request);
 
-            if (!kk.is_s(url)) {
-                reject(kk.err.ia);
-                return;
-            }
+            if (!kk.is.s(url))
+                reject('URL не задан');
 
             if (
                 (ranges.length === 0) ||
@@ -30,16 +30,15 @@ kk.get_buffer = function(/*url, [ranges,] in_one_request =  false*/) {
             // Валидация запроса
             ranges = ranges.map(function(item, i) {
                 if (
-                    kk.is_n(item) || (
-                        kk.is_A(item) &&
-                        kk.is_n(item[0]) && item[0] >= 0 &&
-                        kk.is_n(item[1]) && item[1] >= 0
+                    kk.is.n(item) || (
+                        kk.is.A(item) &&
+                        kk.is.n(item[0]) && item[0] >= 0 &&
+                        kk.is.n(item[1]) && item[1] >= 0
                     )
                 ) {
                     return item;
                 }
 
-                // console.warn(kk.msg.ia, item);
                 return false;
             });
 
@@ -85,7 +84,7 @@ kk.get_buffer = function(/*url, [ranges,] in_one_request =  false*/) {
 };
 
 function range_to_string(range) {
-    if (kk.is_n(range)) {
+    if (kk.is.n(range)) {
         if (range >= 0) {
             // Содержимое начиная с range байта файла
             return(range + '-');
@@ -95,9 +94,9 @@ function range_to_string(range) {
         }
     }
 
-    if (kk.is_A(range) &&
-        kk.is_n(range[0]) && range[0] >= 0 &&
-        kk.is_n(range[1]) && range[1] >= 0
+    if (kk.is.A(range) &&
+        kk.is.n(range[0]) && range[0] >= 0 &&
+        kk.is.n(range[1]) && range[1] >= 0
     ) {
         return(range[0] + '-' + range[1]);
     }

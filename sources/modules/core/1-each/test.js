@@ -7,75 +7,67 @@ QUnit.test('each', function(assert) {
     let callback_false = () => false;
     let callback_42 = () => 42;
 
-    {
-        let test
-        try {
-            each([]);
-            test = true;
-        } catch (e) {
-            test = false;
-        }
-        assert.notOk(test, 'Функция обратного вызова не определена');
-    }
 
-    {
-        let test
-        try {
-            each([], []);
-            test = true;
-        } catch (e) {
-            test = false;
-        }
-        assert.notOk(test, 'Функция обратного вызова не является функцией');
-    }
+    assert.throws(
+        () => each([]),
+        'Функция обратного вызова не определена');
 
-    {
-        let a = {}
-        let test = each(a.un, callback_nothing);
-        assert.equal(typeof test, kk._u,
-            'Игнорирование обратного вызова,' +
-            'если тип переданного объекта не определён');
-    }
+    assert.throws(
+        () => each([], []),
+        'Функция обратного вызова не является функцией');
 
-    {
-        let test = each(null, callback_nothing);
-        assert.equal(typeof test, kk._u,
-            'Игнорирование обратного вызова,' +
-            'если тип переданного объекта не определён: null');
-    }
 
-    {
-        let test = each({length: 42}, callback_nothing);
-        assert.equal(typeof test, kk._u,
-            'Игнорирование обратного вызова,' +
-            'если тип переданного объекта не определён: {length: 42}');
-    }
+    assert.equal(
+        each(void 0, callback_nothing),
+        void 0,
+        'Игнорирование обратного вызова,' +
+        'если тип переданного объекта не определён');
 
-    {
-        let test = each([], callback_nothing, callback_42);
-        assert.equal(test, callback_42(),
-            'Функция по умолчанию возвращает значание');
-    }
+    assert.equal(
+        each(null, callback_nothing),
+        void 0,
+        'Игнорирование обратного вызова,' +
+        'если тип переданного объекта не определён: null');
 
-    {
-        let test = each([], callback_nothing, callback_nothing);
-        assert.equal(typeof test, kk._u,
-            'Функция по умолчанию возвращает «undefined»');
-    }
+    assert.equal(
+        each({length: 42}, callback_nothing),
+        void 0,
+        'Игнорирование обратного вызова,' +
+        'если тип переданного объекта не определён: {length: 42}');
+
+    assert.equal(
+        each([], callback_nothing, callback_42),
+        callback_42(),
+        'Функция по умолчанию возвращает значание');
+
+    assert.equal(
+        each([], callback_nothing, callback_nothing),
+        void 0,
+        'Функция по умолчанию возвращает «undefined»');
+
 
     {
         let counter = 0;
         let object = [1, 2, 3];
         let last_index;
-        let test = each(object, function(item, i) {
+        let test = each(object, (item, i) => {
             counter++;
             last_index = i;
         });
-        assert.equal(counter, object.length,
+
+        assert.equal(
+            counter,
+            object.length,
             'Простой перебор без возвращаемых значений: Выполнение функции');
-        assert.equal(typeof test, kk._u,
+
+        assert.equal(
+            test,
+            void 0,
             'Простой перебор без возвращаемых значений: Возвращает «undefined»');
-        assert.equal(last_index, object.length - 1,
+
+        assert.equal(
+            last_index,
+            object.length - 1,
             'Передача в функцию обратного вызова порядковый номер элемента массива');
     }
 
@@ -170,7 +162,7 @@ QUnit.test('each', function(assert) {
     {
         let counter = 0;
         let test = each('.test-each', function(item) {
-            if (kk.is_N) {
+            if (kk.is.N) {
                 counter++;
             }
         });
@@ -181,7 +173,7 @@ QUnit.test('each', function(assert) {
     {
         let counter = 0;
         let test = each(document.querySelector('#dom-tests').children, function(item) {
-            if (kk.is_N) {
+            if (kk.is.N) {
                 counter++;
             }
         });

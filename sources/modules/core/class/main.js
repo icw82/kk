@@ -1,24 +1,24 @@
 kk.class = function(element, classes, mask) {
-    if (!kk.is_E(element))
-        throw kk.err.ia;
+    if (!kk.is.E(element))
+        throw new TypeError();
 
-    if (kk.is_s(classes))
+    if (kk.is.s(classes))
         classes = [classes];
 
-    if (!kk.is_A(classes))
-        throw kk.err.ia;
+    if (!kk.is.A(classes))
+        throw new TypeError();
 
-    if (!kk.is_A(mask))
+    if (!kk.is.A(mask))
         mask = [];
 
     mask.forEach(function(item) {
-        if (!kk.is_s(item))
-            throw kk.err.ia;
+        if (!kk.is.s(item))
+            throw new TypeError();
     });
 
     classes.forEach(function(item) {
-        if (!kk.is_s(item))
-            throw kk.err.ia;
+        if (!kk.is.s(item))
+            throw new TypeError();
     });
 
     mask.forEach(function(item) {

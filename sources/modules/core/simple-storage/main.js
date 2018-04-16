@@ -1,17 +1,17 @@
 // Обёртка IDB для простых операций с одним хранилищем (storage);
 class SimpleStore {
     constructor(schema) {
-        if (!kk.is_o(schema))
-            throw kk.msg.ia;
+        if (!kk.is.o(schema))
+            throw new TypeError();
 
-        if (!kk.is_s(schema.name))
-            throw kk.msg.ia;
+        if (!kk.is.s(schema.name))
+            throw new TypeError();
 
-        if (!kk.is_o(schema.store))
-            throw kk.msg.ia;
+        if (!kk.is.o(schema.store))
+            throw new TypeError();
 
-        if (!kk.is_s(schema.store.name))
-            throw kk.msg.ia;
+        if (!kk.is.s(schema.store.name))
+            throw new TypeError();
 
         // Если версия не указана и база с таким названием не найдена,
         // то будет создана база данных указанным названием и версией 1.
@@ -20,8 +20,8 @@ class SimpleStore {
         // то соединение с ней будет открыто без изменения версии
         // (то есть с текущей версией).
 
-        if (('version' in schema) && !kk.is_n(schema.version))
-            throw kk.msg.ia;
+        if (('version' in schema) && !kk.is.n(schema.version))
+            throw new TypeError();
 
         const self = this;
 
@@ -45,7 +45,7 @@ class SimpleStore {
         const database = event.target.result;
         const name = this.schema.store.name;
         const key = this.schema.store.key || false;
-        const indexes = kk.is_A(this.schema.store.indexes) ? this.schema.store.indexes : [];
+        const indexes = kk.is.A(this.schema.store.indexes) ? this.schema.store.indexes : [];
         const options = {};
 
         if (database.objectStoreNames.contains(name)) {
@@ -99,7 +99,7 @@ class SimpleStore {
                     .transaction(self.schema.store.name, 'readonly')
                     .objectStore(self.schema.store.name);
 
-                if (kk.is_s(index) && self.schema.store.indexes.includes(index)) {
+                if (kk.is.s(index) && self.schema.store.indexes.includes(index)) {
                     store = store.index(index);
 
                     const key = IDBKeyRange.only(id);

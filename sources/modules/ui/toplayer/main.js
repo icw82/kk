@@ -1,19 +1,19 @@
 var module = {};
 
 var top_layer = document.querySelector('.layout-top-layer');
-if (!kk.is_E(top_layer)) {
+if (!kk.is.E(top_layer)) {
     console.log('Верхний слой не обнаружен');
     return;
 }
 
 var popup_layer = document.querySelector('.layout-top-layer');
-if (!kk.is_E(popup_layer)) {
+if (!kk.is.E(popup_layer)) {
     console.log('Слой для панелей не обнаружен');
     return;
 }
 
 var shadow_layer = document.querySelector('.layout-top-layer');
-if (!kk.is_E(shadow_layer)) {
+if (!kk.is.E(shadow_layer)) {
     console.log('Затеняющий слой не обнаружен');
     return;
 }

@@ -1,9 +1,9 @@
 kk.format.number = input => {
-    if (kk.is_n(input))
+    if (kk.is.n(input))
         input = String(input);
 
-    if (!kk.is_s(input) || input === '')
-        throw kk.err.ia;
+    if (!kk.is.s(input) || input === '')
+        throw new TypeError();
 
     var output = '';
     var delimiter = ' ';

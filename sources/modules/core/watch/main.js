@@ -1,6 +1,8 @@
-var proxy_storage_name = '__proxy__';
+const PROXI_STORAGE_NAME = '__proxy__';
 
-kk.ProxyStorage = function() {}
+kk.ProxyStorage = class ProxyStorage {
+    constructor() {}
+}
 
 function process(input) {
     var output = [];
@@ -11,9 +13,9 @@ function process(input) {
     };
 
     input.forEach(function(item) {
-        if (kk.is_s(item)) {
+        if (kk.is.s(item)) {
             check_and_push(item);
-        } else if (kk.is_A(item)) {
+        } else if (kk.is.A(item)) {
             process(item).forEach(check_and_push);
         }
     });
@@ -21,34 +23,30 @@ function process(input) {
     return output;
 }
 
-/* object, [property(-ies),] callback */
-kk.watch = function() {
-    var properties = [].slice.call(arguments);
-    //var args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments));
-    var object = properties.shift();
-    var callback = properties.pop();
-    var proxy_storage;
+kk.watch = (object, ...properties) => {
+    const callback = properties.pop();
 
-    // TODO: Добавить больше исключений
+    console.log('properties >', properties);
+
     if (
-        !kk.is_o(object) ||
-        kk.is_A(object) ||
-        kk.is_NL(object) ||
-        !kk.is_f(callback)
+        (!kk.is.o(object) || object === null) ||
+        (!kk.is.f(callback) && !(callback instanceof kk.Event)) ||
+        (properties.length > 0 && !kk.is.s(...properties))
     )
-        throw kk.err.ia;
+        throw new TypeError();
 
-    // Проверка существовоания хранилища переменных
-    if (object[proxy_storage_name] instanceof kk.ProxyStorage) {
-        proxy_storage = object[proxy_storage_name];
-    } else {
-        Object.defineProperty(object, proxy_storage_name, {
+    if (!object.hasOwnProperty(PROXI_STORAGE_NAME)) {
+        Object.defineProperty(object, PROXI_STORAGE_NAME, {
             enumerable: false,
             writable: true
         });
-
-        proxy_storage = object[proxy_storage_name] = new kk.ProxyStorage;
     }
+
+    if (!(object[PROXI_STORAGE_NAME] instanceof kk.ProxyStorage)) {
+        object[PROXI_STORAGE_NAME] = new kk.ProxyStorage();
+    }
+
+    const proxy_storage = object[PROXI_STORAGE_NAME];
 
     // Имена свойств не заданы, прокси для каждого ключа
     if (properties.length === 0) {
@@ -74,10 +72,15 @@ kk.watch = function() {
         // FIXME: привести в соответствие с Proxy
         Object.defineProperty(object, property, {
             enumerable: true,
-            get: function() {return proxy_storage[property]},
-            set: function(value) {
-                proxy_storage[property] = value;
-                callback(object, property);
+            get: () => proxy_storage[property],
+            set: (new_value) => {
+                const prev_value = proxy_storage[property];
+                proxy_storage[property] = new_value;
+
+                if (callback instanceof kk.Event)
+                    callback.dispatch(prev_value, new_value);
+                else
+                    callback(object, property);
             }
         });
     });

@@ -1,13 +1,13 @@
 kk.find_ancestor = function(descendant, keys, distance) {
-    if (!kk.is_n(distance))
+    if (!kk.is.n(distance))
         distance = false;
 
-    if (kk.is_s(keys))
+    if (kk.is.s(keys))
         keys = [keys];
 
-    if (kk.is_A(keys)) {
+    if (kk.is.A(keys)) {
         return kk.each (keys, function(key) {
-            if (kk.is_s(key))
+            if (kk.is.s(key))
                 return type(descendant, key, distance);
         });
     }
@@ -27,9 +27,9 @@ function find(descendant, key, distance, type) {
         return;
 
     if (
-        kk.is_E(descendant) &&
+        kk.is.E(descendant) &&
         ('parentNode' in descendant) &&
-        kk.is_E(descendant.parentNode)
+        kk.is.E(descendant.parentNode)
     ) {
         var parent = descendant.parentNode;
 

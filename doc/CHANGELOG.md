@@ -1,6 +1,12 @@
+CHANGELOG
+=========
 
-###
-* kk.proxy → kk.watch
+### 0.15
+* __watch__ Теперь в callback принимается kk.Event;
+* __is__ Проверка типов теперь в отдельном модуле.
+
+### 0.14
+* __format__ Новый метод: capitalize.
 
 ### 0.13
 * __format__ Новые методы: camelize и decamelize.

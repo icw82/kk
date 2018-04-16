@@ -17,7 +17,7 @@ kk.Event = class kkEvent{
     }
 
     addListener(listener) {
-        if (!kk.is_f(listener) || this.hasListener(listener))
+        if (!kk.is.f(listener) || this.hasListener(listener))
             return;
 
         if (this.state.completed)
@@ -28,7 +28,7 @@ kk.Event = class kkEvent{
     }
 
     removeListener(listener) {
-        if (!kk.is_f(listener))
+        if (!kk.is.f(listener))
             return;
 
         this.listeners = this.listeners.filter(item => item !== listener);

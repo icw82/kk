@@ -1,6 +1,6 @@
 kk.ElementEvents = class ElementEvents {
     constructor(element) {
-        if (!kk.is_E(element))
+        if (!kk.is.E(element))
             throw new TypeError();
 
         const self = this;
@@ -34,12 +34,12 @@ kk.ElementEvents = class ElementEvents {
         });
 
         this.on_node_addition.addListener(element => {
-            if (kk.is_E(element))
+            if (kk.is.E(element))
                 self.on_element_addition.dispatch(element);
         });
 
         this.on_node_removal.addListener(element => {
-            if (kk.is_E(element))
+            if (kk.is.E(element))
                 self.on_element_removal.dispatch(element);
         });
     }

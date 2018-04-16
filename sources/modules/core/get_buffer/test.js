@@ -67,7 +67,7 @@ QUnit.test('get_buffer', assert => {
         let label = 'Три среза и один неправильный аргумент';
 
         kk.get_buffer(test_file_url, [5, 10], [0, 5], '', -5).then(result => {
-            assert.ok(kk.is_u(result[2]), 'один неправильный аргумент');
+            assert.ok(kk.is.u(result[2]), 'один неправильный аргумент');
             done();
 
             {

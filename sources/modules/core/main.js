@@ -1,6 +1,4 @@
-var root;
-var cons = console;
-var kenzo = {
+const kk = {
     v: '::version::',
 //    r: root // window or global
     w: null, // window (global if not)
@@ -19,88 +17,34 @@ var kenzo = {
 //    _C: HTMLCollection,
 };
 
-kenzo.msg = {
+kk.msg = {
     cb: 'Обратный вызов не определён или не является функцией',
-    ia: 'Некорректные аргументы',
     ae: 'Уже существует'
 };
 
-kenzo.err = {}; // errors
+kk.err = {}; // errors
 
-Object.keys(kenzo.msg)
-    .forEach(function(key) {
-        kenzo.err[key] = Error(kenzo.msg[key]);
-    });
-
-kenzo.__d = function() {cons.warn('Depricated')};
-
-kenzo.__a = function() {
-    cons.error(kenzo.msg.ia); kenzo.__d();
-};
-kenzo.__ae = function() {
-    cons.warn(kenzo.msg.ae); kenzo.__d();
-};
-
-// TODO: errors
-
-[
-    'undefined',
-    'boolean',
-    'number',
-    'string',
-    'object',
-    'function'
-].forEach(function(s) {
-    kenzo['_' + s[0]] = s;
-    kenzo['is_' + s[0]] = function(a) {return typeof a === s}
+Object.keys(kk.msg).forEach(key => {
+    kk.err[key] = Error(kk.msg[key]);
 });
 
+kk.__d = () => console.warn('Depricated');
+
+
 if (
-    kenzo.is_o(window) &&
-    (kenzo.is_f(Window) || kenzo.is_o(Window)) &&
+    (Window instanceof Function) &&
     (window instanceof Window)
 ) {
-    root = window;
-    kenzo.w = window;
-} else if (kenzo.is_o(global)) {
-    root = global;
+    kk.w = window;
+    kk.global = kk.r = kk.w;
+
+} else {
+    console.warn('Node.js?');
 }
 
-if (kenzo.is_o(root.document))
-    kenzo.d = root.document;
+if (kk.r.document instanceof Object)
+    kk.d = kk.r.document;
 
-[
-    [Array, 'A'],
-    [ArrayBuffer, 'AB'],
-    [Date, 'D'],
-    [Element, 'E'],
-    [Node, 'N'],
-    [NodeList, 'NL'],
-    [HTMLCollection, 'C']
-].forEach(function(p) {
-    if (
-        typeof p[0] !== kenzo._u &&
-        (kenzo.is_f(p[0]) || kenzo.is_o(p[0]))
-    ) {
-        kenzo['_' + p[1]] = p[0];
-        kenzo['is_' + p[1]] = function(a) {return a instanceof p[0]}
-    }
-});
+kk.ts = () => Date.now();
 
-root.kenzo = root.kk = kenzo;
-
-kenzo.ts = function() {
-    var time = new Date();
-    return time.getTime();
-}
-
-if (
-    typeof module !== kenzo._u &&
-    kenzo.is_o(module) &&
-    kenzo.is_o(module.exports)
-) {
-    // FUTURE: запилить для ноды
-    module.exports = kenzo;
-}
-
-kenzo.r = root;
+kk.r.kk = kk.r.kenzo = kk;

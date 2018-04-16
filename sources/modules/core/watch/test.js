@@ -1,6 +1,7 @@
 QUnit.test('watch', assert => {
+    let test_count = 0;
 
-    var test = {
+    const test = {
         a: 82
     }
 
@@ -16,24 +17,40 @@ QUnit.test('watch', assert => {
         a3: 828282
     }
 
-    var callback = function(object, property) {
+    const callback = (object, property) => {
         console.log('object', object);
         console.log('property', property);
     }
 
     assert.throws(() => kk.watch(),
         'Проверка аргументов 1');
+
     assert.throws(() => kk.watch(test),
         'Проверка аргументов 2');
+
     assert.throws(() => kk.watch(test, 'WRONG'),
         'Проверка аргументов 3');
-    assert.throws(() => kk.watch(document.querySelectorAll('div'), callback),
+
+    assert.throws(() => kk.watch(null, callback),
         'Проверка аргументов 4');
-    assert.throws(() => kk.watch([1, 2, 3], callback),
+
+    assert.throws(() => kk.watch(test, null, callback),
         'Проверка аргументов 5');
 
+    assert.throws(() => kk.watch(test, test, callback),
+        'Проверка аргументов 6');
+
     kk.watch(test, 'key', callback);
-    assert.ok('key' in test, 'Прокси создан');
+    assert.ok(
+        'key' in test,
+        'Прокси создан'
+    );
+
+    kk.watch(test, 'one', 'two', callback);
+    assert.ok(
+        'one' in test && 'two' in test,
+        'Прокси создан: несколько ключей'
+    );
 
 //    assert.notOk(
 //        kk.watch(test, 'key', callback),
@@ -41,17 +58,19 @@ QUnit.test('watch', assert => {
 //    );
 
     assert.equal(test.a, 82,
-        'Проверка значения');
+        'Проверка значения 1');
 
     test.a = 10;
     assert.equal(test.a, 10,
-        'Изменение значения');
+        'Изменение значения 2');
 
     test.key = 15;
 
     kk.watch(test, callback);
+
     assert.equal(test.a, 10,
         'Прокси создан для всех ключей, не изменяя их 1');
+
     assert.equal(test.key, 15,
         'Прокси создан для всех ключей, не изменяя их 2');
 
@@ -63,6 +82,27 @@ QUnit.test('watch', assert => {
 
     test2.a2 = 10;
 
-    // массив вторым аргументом
+    {
+        const done = assert.async();
+
+        const test = {a: 1};
+        const event = new kk.Event();
+
+        kk.watch(test, 'a', event);
+
+        event.addListener((o, n) => {
+            assert.equal(n, 5, 'Вызов события по изменению');
+            done();
+        });
+
+        test.a = 5;
+
+    }
+
+//    assert.throws(() => kk.watch(document.querySelectorAll('div'), callback),
+//        'Проверка аргументов 4');
+//
+//    assert.throws(() => kk.watch([1, 2, 3], callback),
+//        'Проверка аргументов 5');
 
 });

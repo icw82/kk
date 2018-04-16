@@ -1,7 +1,7 @@
 kk.format = {};
 
 const split = string => {
-    if (!kk.is_s(string))
+    if (!kk.is.s(string))
         throw new TypeError('Expected a string');
 
     let output = string;

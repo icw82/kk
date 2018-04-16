@@ -8,7 +8,7 @@ kk.plural = function() {
     var second = args[1];
     var amount, singular, paucal, plural, fr;
 
-    if (kk.is_s(first)) {
+    if (kk.is.s(first)) {
         if (langs.indexOf(first) > -1) {
             lang = first;
             return true;
@@ -16,11 +16,11 @@ kk.plural = function() {
             return false;
     }
 
-    if (kk.is_n(first)) {
+    if (kk.is.n(first)) {
         amount = first;
-    } else if (first instanceof kk._A) {
+    } else if (kk.is.A(first)) {
         amount = first.length;
-    } else if (typeof first == kk._o) {
+    } else if (kk.is.o(first)) {
         // NOTE: Может убрать к херам?
         amount = 0;
         for (var j in first)
@@ -32,19 +32,19 @@ kk.plural = function() {
         amount = -amount;
 
     if (
-        kk.is_A(second) &&
-        kk.is_s(second[0]) &&
-        kk.is_s(second[1]) &&
-        kk.is_s(second[2])
+        kk.is.A(second) &&
+        kk.is.s(second[0]) &&
+        kk.is.s(second[1]) &&
+        kk.is.s(second[2])
     ) {
         singular = second[0];
         paucal = second[1];
         plural = second[2];
 
     } else if (
-        kk.is_s(args[1]) &&
-        kk.is_s(args[2]) &&
-        kk.is_s(args[3])
+        kk.is.s(args[1]) &&
+        kk.is.s(args[2]) &&
+        kk.is.s(args[3])
     ) {
 //        kk.__d();
         return kk.plural(amount, [args[1], args[2], args[3]]);

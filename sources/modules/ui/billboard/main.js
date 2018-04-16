@@ -14,13 +14,13 @@ class Billboard {
     }
 
     set_size(width, heigth) {
-        if (kk.is_s(width))
+        if (kk.is.s(width))
             width = parseInt(width);
 
-        if (kk.is_s(heigth))
+        if (kk.is.s(heigth))
             heigth = parseInt(heigth);
 
-        if (kk.is_n(width) && kk.is_n(heigth)) {
+        if (kk.is.n(width) && kk.is.n(heigth)) {
             if (!isNaN(width) && !isNaN(heigth)) {
                 // TODO: проверка
                 this.width = width;
@@ -40,10 +40,10 @@ class Billboard {
 
     static convert(list) {
         return list.map(item => {
-            if (kk.is_o(item))
+            if (kk.is.o(item))
                 return item
 
-            if (kk.is_n(item))
+            if (kk.is.n(item))
                 return {value: item}
 
             throw Error('Неверный формат элемента ряда');
@@ -100,7 +100,7 @@ class Billboard {
 
             const temp = state.list[state.cursor + a];
 
-            if (!kk.is_o(temp)) {
+            if (!kk.is.o(temp)) {
 //                console.log('Список закончен');
                 state.cursor = state.cursor - b + 1;
                 return state;

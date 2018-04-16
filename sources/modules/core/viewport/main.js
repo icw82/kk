@@ -9,7 +9,7 @@ var viewport = {
 viewport.root = viewport.body; // DEPRECATED
 kk.viewport = viewport;
 
-if (kk.is_n(kk.r.pageXOffset)) {
+if (kk.is.n(kk.r.pageXOffset)) {
     define(viewport, 'x', {
         get: function() {
             return kk.r.pageXOffset
