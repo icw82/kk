@@ -26,8 +26,6 @@ function process(input) {
 kk.watch = (object, ...properties) => {
     const callback = properties.pop();
 
-    console.log('properties >', properties);
-
     if (
         (!kk.is.o(object) || object === null) ||
         (!kk.is.f(callback) && !(callback instanceof kk.Event)) ||
