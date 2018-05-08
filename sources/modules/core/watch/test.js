@@ -17,10 +17,8 @@ QUnit.test('watch', assert => {
         a3: 828282
     }
 
-    const callback = (object, property) => {
-        console.log('object', object);
-        console.log('property', property);
-    }
+    const callback = (prev_value, new_value) =>
+        console.log('prev_value, new_value:', prev_value, new_value);
 
     assert.throws(() => kk.watch(),
         'Проверка аргументов 1');
@@ -52,18 +50,38 @@ QUnit.test('watch', assert => {
         'Прокси создан: несколько ключей'
     );
 
+    {
+        let check = false;
+        const test = {a: 82};
+
+        const callback = () => check = true;
+
+        kk.watch(test, 'a', callback);
+
+        assert.equal(test.a, 82, 'Проверка исходного значения');
+
+        test.a = 82;
+
+        assert.notOk(
+            check,
+            `Не срабатывает, если присвоение значения есть, но оно не меняется`
+        );
+
+        test.a = 42;
+
+        assert.ok(
+            check,
+            `Cрабатывает, если значение меняется`
+        );
+
+    }
+
 //    assert.notOk(
 //        kk.watch(test, 'key', callback),
 //        'Попытка повторного создания'
 //    );
 
-    assert.equal(test.a, 82,
-        'Проверка значения 1');
-
     test.a = 10;
-    assert.equal(test.a, 10,
-        'Изменение значения 2');
-
     test.key = 15;
 
     kk.watch(test, callback);
@@ -98,6 +116,7 @@ QUnit.test('watch', assert => {
         test.a = 5;
 
     }
+
 
 //    assert.throws(() => kk.watch(document.querySelectorAll('div'), callback),
 //        'Проверка аргументов 4');
