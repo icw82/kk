@@ -44,9 +44,7 @@ if (
     throw Error(`Неизвестно что`)
 }
 
-Object.defineProperty(kk, 'd', {
-    get: () => kk.r.document instanceof Object ? kk.r.document : void 0
-})
+Object.defineProperty(kk, 'd', { get: () => kk.r.document });
 
 kk.ts = () => Date.now();
 
