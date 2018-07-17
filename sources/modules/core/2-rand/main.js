@@ -1,19 +1,22 @@
 // Случайное целое число
-kk.rand = function() {
-    var args = arguments;
-    var min;
-    var max;
+kk.rand = (first, second) => {
+    let min;
+    let max;
+
+    // Если первым аргументом передан массив
+    if (kk.is.A(first))
+        return first[ kk.rand(0, first.length - 1) ];
 
     // Если аргументов нет — выдавать случайно true/false
-    if (!kk.is.n(args[0]))
+    if (!kk.is.n(first))
         return !Math.round(Math.random())
 
     // Если аргумент только один — задаёт разряд случайного числа
-    if (!kk.is.n(args[1])) {
-        var depth = Math.floor(Math.abs(args[0]));
+    if (!kk.is.n(second)) {
+        var depth = Math.floor(Math.abs(first));
 
         if (depth >= 16)
-            throw new TypeError();
+            throw new Error(`Нельзя задать число более чем в 16 знаков`);
 
         if (depth === 0)
             return 0;
@@ -28,8 +31,8 @@ kk.rand = function() {
     }
 
     // Если два аргумента
-    min = args[0];
-    max = args[1] + 1;
+    min = first;
+    max = second + 1;
 
     return Math.floor( Math.random() * (max - min) ) + min;
 

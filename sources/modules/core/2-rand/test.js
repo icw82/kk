@@ -87,4 +87,11 @@ QUnit.test('rand', assert => {
         assert.throws(() => kk.rand(...args), label);
     }
 
+    {
+        const array = [1, `asd`, 9, null];
+        const label = 'Случайный элемент массива';
+
+        assert.ok(array.includes(kk.rand(array)), label);
+    }
+
 });
