@@ -1,29 +1,40 @@
 // Локальное хранилище
 kk.ls = (function(kk, localStorage) {
-    var _ = {};
+    const _ = {};
 
-    _.create = function() {
-        kk.each (arguments, function(item) {
-            if ((kk.is.s(item)) && (!localStorage.getItem(item))) {
-                localStorage.setItem(item, JSON.stringify([]));
-                localStorage.setItem('@' + item, kk.ts());
-            }
-        })
+    _.on_change = new kk.Event();
+
+    _.create = (key, value = null) => {
+        if (kk.is.s(key) && !localStorage.getItem(key)) {
+            _.set(key, value, true);
+        }
     }
 
-    _.get = function(address) {
-        return JSON.parse(localStorage.getItem(address));
+    _.get = (address, default_value) => {
+        const data = localStorage.getItem(address);
+
+        if (!data && kk.is.o(default_value))
+            return _.set(address, default_value);
+
+        return JSON.parse(data);
     }
 
-    _.ts = function(address) {
-        return localStorage.getItem('@' + address);
-    }
+    _.ts = address => localStorage.getItem(`@` + address);
 
-    _.update = function(address, data) {
+    _.set = (address, data, mute) => {
         localStorage.setItem(address, JSON.stringify(data));
-        localStorage.setItem('@' + address, kk.ts());
+        localStorage.setItem(`@` + address, Date.now());
 
-        return true;
+        mute || _.on_change.dispatch();
+
+        return data;
+    }
+
+    _.remove = (address) => {
+        localStorage.removeItem(address)
+        localStorage.removeItem(`@` + address)
+
+        _.on_change.dispatch(`remove`);
     }
 
     return _;

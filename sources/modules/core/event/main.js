@@ -1,5 +1,5 @@
 kk.Event = class kkEvent{
-    constructor(key) {
+        constructor() {
         this.listeners = [];
         this.queue = [];
         this.state = {
@@ -7,11 +7,6 @@ kk.Event = class kkEvent{
             processed: false,
             completed: false
         }
-
-        Object.defineProperty(this, 'key', {
-            get: () => key
-        });
-
     }
 
     hasListener(listener) {
@@ -19,7 +14,7 @@ kk.Event = class kkEvent{
     }
 
     addListener(listener) {
-        if (!kk.is.f(listener))
+        if (typeof listener !== `function`)
             throw TypeError();
 
         if (this.hasListener(listener))
@@ -37,27 +32,17 @@ kk.Event = class kkEvent{
     }
 
     removeListener(listener) {
-        if (!kk.is.f(listener))
+        if (typeof listener !== `function`)
             return;
 
         this.listeners = this.listeners.filter(item => item !== listener);
     }
 
-    // Если ключ задан, то он передаётся первым аргументом.
     dispatch(...data) {
-        let key;
-
         if (this.state.completed)
             return;
 
         this.state.processed = true;
-
-        if (this.key !== undefined) {
-            key = data.shift();
-            if (key !== this.key)
-                return false;
-        }
-
         this.state.last = data;
 
         this.listeners.forEach(listener => {
