@@ -17,26 +17,6 @@ QUnit.test('Event', assert => {
         event.dispatch('x');
     }
 
-    { // 3
-        let key = kk.generate_key(5);
-        let event = new kk.Event(key);
-        event.addListener(x => {
-            assert.equal(x, 'z',
-                'Событие вызвано с ключём и диспетчер передал данные');
-        });
-        event.dispatch(key, 'z');
-    }
-
-    { // 4
-        let key = kk.generate_key(5);
-        let event = new kk.Event(key);
-        event.addListener(x => {
-            assert.ok(false,
-                'Диспетчер не должен отвечать, если ключ не совпадает')
-        });
-        event.dispatch('y');
-    }
-
     { // 5
         let count = 0;
         let listener = () => {count++};

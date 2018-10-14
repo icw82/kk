@@ -1,5 +1,5 @@
 // Локальное хранилище
-kk.ls = (function(kk, localStorage) {
+kk.ls = ((kk, localStorage) => {
     const _ = {};
 
     _.on_change = new kk.Event();
@@ -7,6 +7,7 @@ kk.ls = (function(kk, localStorage) {
     _.create = (key, value = null) => {
         if (kk.is.s(key) && !localStorage.getItem(key)) {
             _.set(key, value, true);
+            return value;
         }
     }
 
