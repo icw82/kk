@@ -41,6 +41,11 @@ QUnit.test('is', assert => {
         'Строки'
     );
 
+    assert.ok(
+        is.S(new Set([1]), new Set([2]), new Set([3, 4])),
+        'Последовательности'
+    );
+
 
     assert.throws(() => kk.is.addTest('s', 'string'),
         'Тест с таким названием уже существует');

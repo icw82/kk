@@ -18,5 +18,5 @@ kk.format.seconds_to_string = seconds => {
         }
     }).filter(unit => Math.abs(unit.value) > 1).pop();
 
-    return `${ time.value } ${ kk.plural(time.value, time.forms) }`;
+    return `${ time.value } ${ kk.format.plural(time.value, time.forms) }`;
 }

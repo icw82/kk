@@ -40,7 +40,8 @@ kk.is = (() => {
         ['E', Element],
         ['N', Node],
         ['NL', NodeList],
-        ['C', HTMLCollection]
+        ['C', HTMLCollection],
+        ['S', Set],
     ].forEach(args => {
         is.addTest(...args);
     });

@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+### 0.21
+* __format__ Перемещена функция plural
+
+### 0.20
+* __Event__ Удалены ключи;
+* __LS__ Теперь ls.create возвращает значение по умолчанию, если создана запись;
+
 ### 0.19
 * __format__ Добавлены seconds_to_string, date_to_string и date_range_to_string;
 * __Event__ Выпелен ключ;
